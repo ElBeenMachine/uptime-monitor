@@ -1,21 +1,5 @@
 # Configuration for GitHub Labeler Action
 
-# Add 'AnyChange' label to any changes within the entire repository
-AnyChange:
-    - changed-files:
-          - "**"
-
-# Add 'Documentation' label to any change to .md files within the entire repository
-Documentation:
-    - changed-files:
-          - "**/*.md"
-
-# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
-source:
-    - changed-files:
-          - "src/**/*"
-          - "!src/docs/**/*" # Corrected the exclusion pattern
-
 # Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
 feature:
     - head-branch:
@@ -24,4 +8,4 @@ feature:
 
 # Add 'release' label to any PR that is opened against the `main` branch
 release:
-    - base-branch: "main" # Corrected the branch name
+    - base-branch: "production" # Corrected the branch name
