@@ -1,11 +1,13 @@
 # Configuration for GitHub Labeler Action
 
-# Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
-feature:
-    - head-branch:
-          - "^feature.*" # Corrected the regex pattern to match any occurrence of 'feature' at the beginning of the branch name
-          - ".*feature.*" # Added pattern to match 'feature' anywhere in the branch name
+# Add 'docs' label to any PR that changes a .md file
+docs:
+    - "**/*.md"
 
-# Add 'release' label to any PR that is opened against the `main` branch
+# Add 'release' label to any PR that is opened against the `production` branch
 release:
-    - base-branch: "production" # Corrected the branch name
+    - base-branch: "production"
+
+# Add 'feature' label to any PR with 'feature' in the PR title
+feature:
+    - title: ".*feature.*"
