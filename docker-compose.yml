@@ -1,0 +1,28 @@
+version: "3"
+services:
+    db:
+        image: mysql:latest
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: myRootPass
+            MYSQL_DATABASE: uptimeDatabase
+            MYSQL_USER: uptimeUser
+            MYSQL_PASSWORD: uptimePass
+        ports:
+            - "3306:3306"
+        volumes:
+            - db_data:/var/lib/mysql
+    website:
+        build: .
+        restart: unless-stopped
+        environment:
+            DB_NAME: uptimeDatabase
+            DB_USER: uptimeUser
+            DB_PASS: uptimePass
+        ports:
+            - "3000:3000"
+        depends_on:
+            - db
+        command: /bin/sh -c "node init-db.js && npm start"
+volumes:
+    db_data:
