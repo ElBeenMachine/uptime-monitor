@@ -1,8 +1,16 @@
 # Build stage
 FROM node:18-alpine AS builder
+
+# Set the working directory
 WORKDIR /app
+
+# Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm ci
+
+# Copy the source code and build the application
 COPY . .
 RUN npm run build
 
