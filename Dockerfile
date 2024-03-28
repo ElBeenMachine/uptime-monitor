@@ -1,8 +1,16 @@
 # Build stage
 FROM node:18-alpine AS builder
+
+# Set the working directory
 WORKDIR /app
+
+# Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm ci
+
+# Copy the source code and build the application
 COPY . .
 RUN npm run build
 
@@ -10,6 +18,5 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /app
 COPY --from=builder /app ./
-RUN npm install -g next
 EXPOSE 3000
 CMD ["npm", "start"]
