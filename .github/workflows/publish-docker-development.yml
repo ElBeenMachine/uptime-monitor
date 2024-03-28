@@ -21,7 +21,6 @@ jobs:
             - name: Build Docker image
               run: |
                   docker build -t beenhamo/uptime-monitor:beta .
-                  docker tag beenhamo/uptime-monitor:beta
 
             - name: Push Docker images
               run: |
