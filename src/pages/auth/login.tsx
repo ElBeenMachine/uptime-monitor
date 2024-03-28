@@ -5,9 +5,11 @@ import { useEffect, useRef } from "react";
 interface LoginPageProps {}
 
 function LoginPage({}: LoginPageProps) {
+    // Create refs for the email and password inputs
     const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
     const passwordRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
 
+    // Focus on the email input when the page loads
     useEffect(() => {
         emailRef.current?.focus();
     }, []);
