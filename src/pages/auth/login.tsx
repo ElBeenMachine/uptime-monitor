@@ -1,10 +1,23 @@
 import MasterPage from "@/components/Layout/master";
 import AuthInput from "@/components/auth/authInput";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 interface LoginPageProps {}
 
+// Define error definitions
+const definitions: { [key: string]: string } = {
+    CredentialsSignin: "Your username or password is incorrect.",
+};
+
 function LoginPage({}: LoginPageProps) {
+    // Get search params
+    const searchParams = useSearchParams();
+
+    // See if there is an error
+    const error = searchParams.get("error");
+
     // Create refs for the email and password inputs
     const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
     const passwordRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -25,9 +38,24 @@ function LoginPage({}: LoginPageProps) {
                             <AuthInput type="email" placeholder="Email" required={true} ref={emailRef} />
                             <AuthInput type="password" placeholder="Password" required={true} ref={passwordRef} />
 
+                            {error && (
+                                <div className="w-full bg-red-100 text-red-700 py-2 px-3 text-sm mb-2 rounded-md border border-red-300">
+                                    {definitions[error] || "An unexpected error has occurred when trying to log in"}
+                                </div>
+                            )}
+
                             <div className="w-full border-t border-solid border-[rgba(var(--foreground-rgb))]/40 my-2"></div>
 
-                            <button className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md">Log In</button>
+                            <button
+                                onClick={() =>
+                                    signIn("credentials", {
+                                        callbackUrl: "/",
+                                    })
+                                }
+                                className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md"
+                            >
+                                Log In
+                            </button>
                         </div>
                     </div>
                 </div>
