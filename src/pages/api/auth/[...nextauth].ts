@@ -26,8 +26,6 @@ const authOptions = {
                     email: "ollie@beenhamow.co.uk",
                 };
 
-                return null as any;
-
                 if (user) return user;
                 else return null as any;
             },
