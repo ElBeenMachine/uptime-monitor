@@ -1,7 +1,14 @@
 {
     "name": "Node.js",
     "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
-    "features": {},
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
     "forwardPorts": [3000],
-    "postCreateCommand": "npm install"
+    "postCreateCommand": "npm install",
+    "hostRequirements": {
+        "cpus": 8,
+        "memory": "32gb",
+        "storage": "64gb"
+    }
 }
