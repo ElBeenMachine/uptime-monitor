@@ -9,7 +9,7 @@
         "start": "next start",
         "lint": "next lint",
         "docker-start": "docker-compose up --build",
-        "prepare": "npx tsx init-db.ts"
+        "docker-prepare": "npx tsx init-db.ts"
     },
     "dependencies": {
         "@types/mysql": "^2.15.26",

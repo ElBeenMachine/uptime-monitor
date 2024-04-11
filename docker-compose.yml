@@ -14,7 +14,7 @@ services:
             - db_data:/var/lib/mysql
     website:
         build: .
-        restart: unless-stopped
+        restart: on-failure
         environment:
             DB_NAME: uptimeDatabase
             DB_USER: uptimeUser
@@ -23,6 +23,6 @@ services:
             - "3000:3000"
         depends_on:
             - db
-        command: /bin/sh -c "npm run prepare && npm start"
+        command: /bin/sh -c "npm run docker-prepare && npm start"
 volumes:
     db_data:
