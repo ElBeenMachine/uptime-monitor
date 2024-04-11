@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { connectToDb } from "@/utils/db";
+import bcrypt from "bcrypt";
 
 const authOptions = {
+    secret: process.env.AUTH_SECRET,
     // Configure authentication providers
     providers: [
         Credentials({
@@ -19,20 +21,25 @@ const authOptions = {
                 },
             },
             async authorize(credentials: any, req: any) {
-                // Add database logic
-                console.log(credentials, req);
-
                 // Create database connection
-                const db = await connectToDb();
+                const connection = await connectToDb();
 
-                // TODO: Get username and password from request
-                // TODO: Check if user exists in the database
-                // TODO: Check if password is correct
-                // TODO: Return user object if everything is correct
-                // TODO: Return null if user does not exist or password is incorrect
+                // Get email and password from request
+                const { email, password } = credentials;
 
-                const user = null;
-                return null;
+                // Check if user exists in the database
+                const query = `SELECT * FROM users WHERE email = "${email}" LIMIT 1;`;
+                const user = (await connection.execute(query))[0][0];
+
+                // If no user was found, return null
+                if (!user) return null;
+
+                // Bcrypt compare
+                const match = await bcrypt.compare(password, user.password);
+                if (!match) return null;
+
+                // Return the user object if everything is correct
+                return user;
             },
         }),
     ],

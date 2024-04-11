@@ -3,8 +3,8 @@
  */
 
 // Import the required modules
-import bcrypt from "bcrypt";
 import { connectToDb } from "@/utils/db";
+import { hashPassword } from "@/utils/pass";
 
 /**
  * Function to check if there is already a users table in the database. If the table does not exist, it will be created.
@@ -24,11 +24,11 @@ async function checkUserTable(connection: any) {
     const createTableQuery = `
             CREATE TABLE IF NOT EXISTS users (
                 userID CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-                firstName VARCHAR(255),
-                lastName VARCHAR(255),
-                password VARCHAR(255),
-                email VARCHAR(255),
-                isAdmin BOOLEAN
+                firstName VARCHAR(255) NOT NULL,
+                lastName VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                email VARCHAR(255) UNIQUE,
+                isAdmin BOOLEAN DEFAULT false
             )`;
 
     try {
@@ -40,18 +40,6 @@ async function checkUserTable(connection: any) {
     } finally {
         return false;
     }
-}
-
-/**
- * Function to hash a plaintext password using bcrypt.
- *
- * @param {string} password The plaintet password to be hashed
- * @returns {string} The hashed password
- */
-async function hashPassword(password: string) {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
 }
 
 /**

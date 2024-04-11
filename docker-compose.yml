@@ -19,6 +19,7 @@ services:
             DB_NAME: uptimeDatabase
             DB_USER: uptimeUser
             DB_PASS: uptimePass
+            AUTH_SECRET: AUTH_SECRET
         ports:
             - "3000:3000"
         depends_on:
