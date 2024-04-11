@@ -2,28 +2,36 @@
     "name": "uptime-monitor",
     "version": "0.1.0",
     "private": true,
+    "type": "commonjs",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "docker-start": "docker-compose up --build"
+        "docker-start": "docker-compose up --build",
+        "docker-prepare": "npx tsx init-db.ts",
+        "docker-dev": "docker-compose -f docker-compose.dev.yml up -d --build && npm run docker-prepare && npm run dev"
     },
     "dependencies": {
+        "@types/mysql": "^2.15.26",
+        "@types/next-auth": "^3.15.0",
         "bcrypt": "^5.1.1",
         "dotenv": "^16.4.5",
         "mysql2": "^3.9.3",
         "next": "14.1.4",
+        "next-auth": "^4.24.7",
         "react": "^18",
         "react-dom": "^18"
     },
     "devDependencies": {
-        "@types/node": "^20",
+        "@types/bcrypt": "^5.0.2",
+        "@types/node": "^20.11.30",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "autoprefixer": "^10.0.1",
         "postcss": "^8",
         "tailwindcss": "^3.3.0",
+        "tsx": "^4.7.2",
         "typescript": "^5"
     }
 }
