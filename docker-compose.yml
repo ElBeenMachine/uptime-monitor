@@ -23,6 +23,6 @@ services:
             - "3000:3000"
         depends_on:
             - db
-        command: /bin/sh -c "node init-db.js && npm start"
+        command: /bin/sh -c "npm run prepare && npm start"
 volumes:
     db_data:
