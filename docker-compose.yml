@@ -1,6 +1,6 @@
 version: "3"
 services:
-    db:
+    uptime_db:
         image: mysql:latest
         restart: unless-stopped
         environment:
@@ -12,17 +12,18 @@ services:
             - "3306:3306"
         volumes:
             - db_data:/var/lib/mysql
-    website:
+    uptime_client:
         build: .
-        restart: unless-stopped
+        restart: on-failure
         environment:
             DB_NAME: uptimeDatabase
             DB_USER: uptimeUser
             DB_PASS: uptimePass
+            AUTH_SECRET: AUTH_SECRET
         ports:
             - "3000:3000"
         depends_on:
-            - db
-        command: /bin/sh -c "node init-db.js && npm start"
+            - uptime_db
+        command: /bin/sh -c "npm run docker-prepare && npm start"
 volumes:
     db_data:

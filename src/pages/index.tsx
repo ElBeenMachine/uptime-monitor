@@ -1,5 +1,12 @@
 import MasterPage from "@/components/Layout/master";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-    return <MasterPage pageTitle="Home"></MasterPage>;
+    const { data: session, status }: any = useSession();
+
+    return (
+        <MasterPage pageTitle="Home">
+            <p>{JSON.stringify(session?.user, null, 4) || null}</p>
+        </MasterPage>
+    );
 }
