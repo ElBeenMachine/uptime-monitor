@@ -20,14 +20,19 @@ const authOptions = {
             },
             async authorize(credentials: any, req: any) {
                 // Add database logic
-                const user = {
-                    firstName: "Ollie",
-                    lastName: "Beenham",
-                    email: "ollie@beenhamow.co.uk",
-                };
+                console.log(credentials, req);
 
-                if (user) return user;
-                else return null as any;
+                // Create database connection
+                const db = await connectToDb();
+
+                // TODO: Get username and password from request
+                // TODO: Check if user exists in the database
+                // TODO: Check if password is correct
+                // TODO: Return user object if everything is correct
+                // TODO: Return null if user does not exist or password is incorrect
+
+                const user = null;
+                return null;
             },
         }),
     ],
