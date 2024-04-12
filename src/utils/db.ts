@@ -30,10 +30,10 @@ const connectToDb = async (attempts = 0): Promise<any> => {
         console.log("🟢 | Connected to the database");
         return connection;
     } catch (err) {
-        console.warn("🟠 | Unable to connect to the database. Retrying in 5 seconds...");
-        // Retry connection up to 5 times
+        console.warn("🟠 | Unable to connect to the database. Retrying in 10 seconds...");
+        // Retry connection up to 10 times
         if (attempts < 10) {
-            await new Promise((resolve) => setTimeout(resolve, 5000));
+            await new Promise((resolve) => setTimeout(resolve, 10000));
             return connectToDb(attempts + 1);
         } else {
             throw new Error("🔴 | Unable to connect to the database after 10 attempts.");
