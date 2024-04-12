@@ -2,7 +2,6 @@ import Head from "next/head";
 import React from "react";
 
 import { Poppins } from "next/font/google";
-import DashNav from "./DashNav";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -22,12 +21,7 @@ function MasterPage({ children, pageTitle }: MasterPageProps) {
             <Head>
                 <title>{pageTitle}</title>
             </Head>
-            <div id={"dash-viewport"} className={"w-full flex flex-nowrap"}>
-                <DashNav />
-                <div id={"dash-content"} className={"w-full p-3"}>
-                    {children}
-                </div>
-            </div>
+            {children}
         </main>
     );
 }

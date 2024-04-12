@@ -4,7 +4,9 @@ import { connectToDb } from "@/utils/db";
 import bcrypt from "bcrypt";
 
 const authOptions = {
-    secret: process.env.AUTH_SECRET,
+    session: {
+        jwt: true,
+    },
     // Configure authentication providers
     providers: [
         Credentials({
@@ -43,10 +45,37 @@ const authOptions = {
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, user, trigger, session }: any) {
+            if (trigger == "update" && session?.user) {
+                token.user = {
+                    ...token.user,
+                    ...session.user,
+                };
+                return token;
+            }
+
+            if (user) {
+                // Set the token to the user minus the password field
+                token.user = user;
+                delete token.user.password;
+            }
+
+            return token;
+        },
+
+        session: async ({ session, token }: any) => {
+            if (token != undefined) {
+                session.user = token.user;
+            }
+
+            return session;
+        },
+    },
     pages: {
         signIn: "/auth/login",
         error: "/auth/login",
     },
 };
 
-export default NextAuth(authOptions);
+export default NextAuth(authOptions as any);
