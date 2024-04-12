@@ -1,4 +1,4 @@
-import MasterPage from "@/components/Layout/master";
+import MasterPage from "@/components/Layout/Dash/DashMaster";
 import { useSession } from "next-auth/react";
 
 export default function Home() {

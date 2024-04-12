@@ -1,4 +1,4 @@
-import MasterPage from "@/components/Layout/master";
+import MasterPage from "@/components/Layout/Dash/master";
 import AuthInput from "@/components/auth/authInput";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
