@@ -4,7 +4,6 @@ import { connectToDb } from "@/utils/db";
 import bcrypt from "bcrypt";
 
 const authOptions = {
-    secret: process.env.AUTH_SECRET,
     // Configure authentication providers
     providers: [
         Credentials({
