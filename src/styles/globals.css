@@ -4,24 +4,36 @@
 
 /* Light Mode Colours */
 :root {
-    --foreground-rgb: 46, 46, 46;
-    --background-rgb: 255, 255, 255;
-    --background-rgb-hover: 250, 250, 250;
-    --background-alt-rgb: 240, 240, 240;
+    --foreground: #2e2e2e;
+    --foreground-alt: #ffffff;
+    --background: #ffffff;
+    --background-hover: #fafafa;
+    --background-alt: #f0f0f0;
+
+    --accent-primary: #1679ab;
+    --accent-primary-hover: #0f5f8b;
 }
 
 /* Dark Mode Colours */
 @media (prefers-color-scheme: dark) {
     :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-rgb: 45, 45, 45;
-        --background-rgb-hover: 50, 50, 50;
-        --background-alt-rgb: 30, 30, 30;
+        --foreground: #ffffff;
+        --foreground-alt: #2e2e2e;
+        --background: #2d2d2d;
+        --background-hover: #323232;
+        --background-alt: #1e1e1e;
+
+        --accent-primary: #1679ab;
+        --accent-primary-hover: #0f5f8b;
     }
 }
 
 main {
     min-height: 100dvh;
-    color: rgb(var(--foreground-rgb));
-    background: rgb(var(--background-rgb));
+    color: var(--foreground);
+    background: var(--background);
+}
+
+input:focus {
+    outline: none;
 }

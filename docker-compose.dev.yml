@@ -1,6 +1,7 @@
 services:
     uptime_dev_db:
         image: mysql:latest
+        container_name: uptime_db_dev
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: myRootPass

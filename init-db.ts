@@ -26,6 +26,7 @@ async function checkUserTable(connection: any) {
                 userID CHAR(36) PRIMARY KEY DEFAULT (UUID()),
                 firstName VARCHAR(255) NOT NULL,
                 lastName VARCHAR(255) NOT NULL,
+                username VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
                 email VARCHAR(255) UNIQUE,
                 isAdmin BOOLEAN DEFAULT false
@@ -61,7 +62,7 @@ async function checkDefaultUser(connection: any) {
     const hashedPassword = await hashPassword("changeMe");
 
     // If the table did not exist, create a default user
-    const createDefaultUserQuery = `INSERT INTO users (firstName, lastName, password, email, isAdmin) VALUES ('Admin', 'User', '${hashedPassword}', 'admin@example.com', true)`;
+    const createDefaultUserQuery = `INSERT INTO users (firstName, lastName, username, password, email, isAdmin) VALUES ('Admin', 'User', 'Administrator', '${hashedPassword}', 'admin@example.com', true)`;
 
     try {
         // Execute the SQL query to create the default user
