@@ -1,6 +1,7 @@
 services:
     uptime_db:
         image: mysql:latest
+        container_name: uptime_db
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: myRootPass
@@ -13,8 +14,10 @@ services:
             - db_data:/var/lib/mysql
     uptime_client:
         build: .
+        container_name: uptime_client
         restart: on-failure
         environment:
+            DB_HOST: uptime_db
             DB_NAME: uptimeDatabase
             DB_USER: uptimeUser
             DB_PASS: uptimePass
