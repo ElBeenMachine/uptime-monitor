@@ -1,8 +1,6 @@
 name: Build Docker Image
 
 on:
-    pull_request:
-        branches: ["staging"]
     push:
         branches: ["development"]
 
