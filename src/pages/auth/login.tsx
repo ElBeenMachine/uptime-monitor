@@ -1,5 +1,5 @@
-import MasterPage from "@/components/Layout/master";
-import AuthInput from "@/components/auth/authInput";
+import MasterPage from "@/components/Layout/Basic/BasicMaster";
+import AuthInput from "@/components/Auth/authInput";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -27,12 +27,27 @@ function LoginPage({}: LoginPageProps) {
         emailRef.current?.focus();
     }, []);
 
+    // Simulate a button press on enter key press
+    function handleKeyPress(e: React.KeyboardEvent) {
+        if (e.key === "Enter") {
+            processSignIn();
+        }
+    }
+
+    function processSignIn() {
+        signIn("credentials", {
+            email: emailRef.current?.value,
+            password: passwordRef.current?.value,
+            callbackUrl: "/",
+        });
+    }
+
     return (
         <MasterPage pageTitle="Login">
             <div id="auth-container" className="w-full h-[100dvh]">
                 <div className="flex flex-col items-center justify-center w-full h-full bg-[rgba(var(--background-rgb))]/40">
                     <div className="bg-[rgb(var(--background-rgb))] text-[rgb(var(--foreground-rgb))] p-6 px-8 w-full h-full flex items-center justify-center sm:block sm:rounded-md sm:w-max sm:h-max sm:shadow-lg">
-                        <div className="sm:w-[300px] max-w-full">
+                        <div className="sm:w-[300px] max-w-full" onKeyDown={handleKeyPress}>
                             <h1 className="text-2xl mb-5 mt-2">Log In</h1>
 
                             <AuthInput type="email" placeholder="Email" required={true} ref={emailRef} />
@@ -46,16 +61,7 @@ function LoginPage({}: LoginPageProps) {
 
                             <div className="w-full border-t border-solid border-[rgba(var(--foreground-rgb))]/40 my-2"></div>
 
-                            <button
-                                onClick={() =>
-                                    signIn("credentials", {
-                                        email: emailRef.current?.value,
-                                        password: passwordRef.current?.value,
-                                        callbackUrl: "/",
-                                    })
-                                }
-                                className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md"
-                            >
+                            <button onClick={processSignIn} className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md">
                                 Log In
                             </button>
                         </div>

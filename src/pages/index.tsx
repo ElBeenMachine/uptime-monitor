@@ -1,12 +1,20 @@
-import MasterPage from "@/components/Layout/master";
-import { useSession } from "next-auth/react";
+import MasterPage from "@/components/Layout/Dash/DashMaster";
 
-export default function Home() {
-    const { data: session, status }: any = useSession();
-
-    return (
-        <MasterPage pageTitle="Home">
-            <p>{JSON.stringify(session?.user, null, 4) || null}</p>
-        </MasterPage>
-    );
+function HomePage() {
+    return <MasterPage pageTitle="Home">Loading...</MasterPage>;
 }
+
+// Use getServerSideProps to redirect to the dashboard if there are no public facing status pages
+export async function getServerSideProps() {
+    // TODO: Check if there are any public facing status pages
+
+    // Redirect to the dashboard
+    return {
+        redirect: {
+            destination: "/dashboard",
+            permanent: false,
+        },
+    };
+}
+
+export default HomePage;
