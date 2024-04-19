@@ -1,4 +1,3 @@
-version: "3"
 services:
     uptime_dev_db:
         image: mysql:latest

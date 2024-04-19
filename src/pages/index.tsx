@@ -1,4 +1,4 @@
-import MasterPage from "@/components/Layout/master";
+import MasterPage from "@/components/Layout/Dash/DashMaster";
 
 function HomePage() {
     return <MasterPage pageTitle="Home">Loading...</MasterPage>;
