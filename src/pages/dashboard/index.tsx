@@ -1,7 +1,7 @@
-import MasterPage from "@/components/Layout/master";
+import MasterPage from "@/components/Layout/Dash/DashMaster";
 import { signOut, useSession } from "next-auth/react";
 
-export default function Dashboard() {
+export default function DashboardHome() {
     const { data: session, status }: any = useSession();
 
     return (
