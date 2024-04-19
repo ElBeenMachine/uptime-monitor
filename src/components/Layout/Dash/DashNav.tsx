@@ -1,9 +1,9 @@
 import { getGravatar } from "@/utils/gravatar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { ReactElement, ReactNode } from "react";
-import { IconType } from "react-icons";
+import { ReactElement } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
+import { CgWebsite } from "react-icons/cg";
 
 interface DashNavProps {}
 
@@ -36,12 +36,12 @@ interface NavLinkInterface {
 function NavLink({ href, text, icon }: NavLinkInterface) {
     // If the current path matches the path of the link, add the active class
     const router = useRouter();
-    const activeClass = router.pathname === href ? "bg-[rgb(var(--background-rgb))] " : "";
+    const activeClass = router.pathname === href ? "bg-[rgb(var(--background-rgb))] shadow-md" : "";
 
     return (
         <a
             id={"nav-user-card"}
-            className={`rounded-md hover:bg-[rgb(var(--background-rgb-hover))] p-3 shadow-md w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`}
+            className={`rounded-md hover:bg-[rgb(var(--background-rgb-hover))] p-3 w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`}
             href={href}
         >
             {icon ? <span className={"mr-2"}>{icon}</span> : null}
@@ -58,8 +58,9 @@ function DashNav({}: DashNavProps) {
                 <div></div>
 
                 {/* Navigation Links */}
-                <div className={"flex-grow w-full"}>
+                <div className={"flex-grow w-full flex flex-col gap-2"}>
                     <NavLink href={"/dashboard"} text={"Home"} icon={<MdOutlineDashboard />} />
+                    <NavLink href={"/dashboard/pages"} text={"Status Pages"} icon={<CgWebsite />} />
                 </div>
 
                 {/* Navigation User Card */}
