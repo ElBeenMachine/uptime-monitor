@@ -6,8 +6,6 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import Link from "next/link";
 
-interface DashNavProps {}
-
 /**
  * Function to create a user card.
  * @returns {ReactElement} The user card
@@ -19,11 +17,11 @@ function UserCard() {
     return (
         <Link
             id={"nav-user-card"}
-            className={"rounded-md bg-[rgb(var(--background-rgb))] hover:bg-[rgb(var(--background-rgb-hover))] p-3 shadow-md w-full transition-all cursor-pointer flex justify-between items-center"}
+            className={"rounded-md bg-[var(--background)] hover:bg-[var(--background-hover)] p-3 shadow-md w-full transition-all cursor-pointer flex justify-start items-center"}
             href={"/dashboard/profile"}
         >
-            <img src={getGravatar(session?.user.email, { size: 50 })} alt={session?.user.fname} className={"rounded-full w-6 h-6"} />
-            {session?.user.firstName} {session?.user.lastName}
+            <img src={getGravatar(session?.user.email, { size: 50 })} alt={session?.user.fname} className={"rounded-full w-6 h-6 mr-4"} />
+            {session?.user.username}
         </Link>
     );
 }
@@ -44,23 +42,26 @@ interface NavLinkInterface {
 function NavLink({ href, text, icon }: NavLinkInterface) {
     // If the current path matches the path of the link, add the active class
     const router = useRouter();
-    const activeClass = router.pathname === href ? "bg-[rgb(var(--background-rgb))] shadow-md" : "";
+    const activeClass = router.pathname === href ? "bg-[var(--background)] shadow-md" : "";
 
     return (
-        <Link
-            id={"nav-user-card"}
-            className={`rounded-md hover:bg-[rgb(var(--background-rgb-hover))] p-3 w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`}
-            href={href}
-        >
-            {icon ? <span className={"mr-2"}>{icon}</span> : null}
+        <Link id={"nav-user-card"} className={`rounded-md hover:bg-[var(--background-hover)] p-3 w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`} href={href}>
+            {icon ? <span className={"mr-4"}>{icon}</span> : null}
             {text}
         </Link>
     );
 }
 
+interface DashNavProps {}
+
+/**
+ *
+ * @param {DashNavProps} props Navigation properties
+ * @returns {ReactElement} The dashboard navigation
+ */
 function DashNav({}: DashNavProps) {
     return (
-        <nav className={"md:w-full md:max-w-60 h-[100dvh] bg-[rgb(var(--background-alt-rgb))] shadow-md"}>
+        <nav className={"md:w-full md:max-w-60 h-[100dvh] bg-[var(--background-alt)] shadow-md"}>
             <div className={"flex flex-col items-center justify-start w-full h-full p-3"}>
                 {/* Navigation Branding */}
                 <div></div>
