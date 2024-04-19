@@ -24,7 +24,7 @@ function MasterPage({ children, pageTitle }: MasterPageProps) {
             </Head>
             <div id={"dash-viewport"} className={"w-full flex flex-nowrap"}>
                 <DashNav />
-                <div id={"dash-content"} className={"w-full p-3"}>
+                <div id={"dash-content"} className={"w-full p-5"}>
                     {children}
                 </div>
             </div>
