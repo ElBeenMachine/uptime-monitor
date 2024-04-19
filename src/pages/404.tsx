@@ -1,4 +1,5 @@
 import MasterPage from "@/components/Layout/Basic/BasicMaster";
+import Link from "next/link";
 
 function HomePage() {
     return (
@@ -8,9 +9,9 @@ function HomePage() {
 
                 <p>The page you are looking for does not exist.</p>
 
-                <a className={"underline"} href={"/"}>
+                <Link className={"underline"} href={"/"}>
                     Go back to the home page
-                </a>
+                </Link>
             </div>
         </MasterPage>
     );
