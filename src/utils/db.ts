@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 // Import the required modules
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
@@ -27,7 +31,6 @@ const connectToDb = async (attempts = 0): Promise<any> => {
             database,
         });
 
-        console.log("🟢 | Connected to the database");
         return connection;
     } catch (err) {
         console.warn(`🟠 | Unable to connect to the database on address ${host}. Retrying in 10 seconds...`);

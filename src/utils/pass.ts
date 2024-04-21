@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 // Import bcrypt
 import bcrypt from "bcrypt";
 
