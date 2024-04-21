@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 import { getGravatar } from "@/utils/gravatar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";

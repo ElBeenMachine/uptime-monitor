@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 // Import the required modules
 import crypto from "crypto";
 

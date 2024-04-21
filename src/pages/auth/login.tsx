@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 import MasterPage from "@/components/Layout/Basic/BasicMaster";
 import AuthInput from "@/components/Auth/authInput";
 import { signIn } from "next-auth/react";
