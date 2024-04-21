@@ -6,6 +6,9 @@ import MasterPage from "@/components/Layout/Dash/DashMaster";
 import { useEffect } from "react";
 import { useState } from "react";
 
+// Import the package information
+import packageInfo from "../../../package.json";
+
 interface HomeCardProps {
     title: string;
     width?: "full" | "half" | "third";
@@ -99,6 +102,17 @@ export default function DashboardHome() {
                         <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
                     </div>
                 </HomeCard>
+            </div>
+
+            <div className={"flex-grow"}></div>
+
+            <div className={"text-center pt-5 w-full"}>
+                <p>
+                    ♥ Powered by{" "}
+                    <a href={"https://www.github.com/ElBeenMachine/uptime-monitor"} className={"underline"} target={"_blank"}>
+                        {packageInfo.name} v{packageInfo.version}
+                    </a>
+                </p>
             </div>
         </MasterPage>
     );
