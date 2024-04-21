@@ -29,7 +29,7 @@ function MasterPage({ children, pageTitle }: MasterPageProps) {
             </Head>
             <div id={"dash-viewport"} className={"w-full h-[100dvh] flex flex-nowrap flex-col md:flex-row"}>
                 <DashNav />
-                <div id={"dash-content"} className={"w-full p-4 flex flex-col"}>
+                <div id={"dash-content"} className={"w-full h-full p-4 flex flex-col overflow-auto"}>
                     {children}
                 </div>
                 <DashTabs />

@@ -72,36 +72,6 @@ export default function DashboardHome() {
                         <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
                     </div>
                 </HomeCard>
-                <HomeCard title="Monitors 2" width={"third"}>
-                    <div className={"w-full min-h-12 text-center"}>
-                        <span className={"text-5xl"}>{monitors.length}</span>
-                        <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
-                    </div>
-                </HomeCard>
-                <HomeCard title="Monitors 3" width="third">
-                    <div className={"w-full min-h-12 text-center"}>
-                        <span className={"text-5xl"}>{monitors.length}</span>
-                        <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
-                    </div>
-                </HomeCard>
-                <HomeCard title="Monitors 4" width="full">
-                    <div className={"w-full min-h-12 text-center"}>
-                        <span className={"text-5xl"}>{monitors.length}</span>
-                        <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
-                    </div>
-                </HomeCard>
-                <HomeCard title="Monitors 5" width="half">
-                    <div className={"w-full min-h-12 text-center"}>
-                        <span className={"text-5xl"}>{monitors.length}</span>
-                        <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
-                    </div>
-                </HomeCard>
-                <HomeCard title="Monitors 6" width="half">
-                    <div className={"w-full min-h-12 text-center"}>
-                        <span className={"text-5xl"}>{monitors.length}</span>
-                        <p className={"mt-3"}>{monitors.length === 1 ? "Monitor" : "Monitors"} Available</p>
-                    </div>
-                </HomeCard>
             </div>
 
             <div className={"flex-grow"}></div>
