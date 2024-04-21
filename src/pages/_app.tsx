@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 import "@/styles/globals.css";
 import "@/styles/auth.css";
 

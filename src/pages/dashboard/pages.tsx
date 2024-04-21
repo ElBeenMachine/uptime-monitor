@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 import MasterPage from "@/components/Layout/Dash/DashMaster";
 
 /**

@@ -1,3 +1,7 @@
+/**
+ * @author - @ElBeenMachine
+ */
+
 import React from "react";
 
 interface AuthInputProps {

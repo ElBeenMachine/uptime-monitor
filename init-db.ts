@@ -9,7 +9,7 @@ import { hashPassword } from "@/utils/pass";
 /**
  * Function to check if there is already a users table in the database. If the table does not exist, it will be created.
  *
- * @param {mysql.Connection} connection
+ * @param connection The connection to the database.
  * @returns {boolean} Returns true if the table already exists, false otherwise.
  */
 async function checkUserTable(connection: any) {
@@ -20,22 +20,41 @@ async function checkUserTable(connection: any) {
         return true;
     }
 
-    // Create the users table if it did not exist
+    // Create the user table if it did not exist
     const createTableQuery = `
-            CREATE TABLE IF NOT EXISTS users (
-                userID CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-                firstName VARCHAR(255) NOT NULL,
-                lastName VARCHAR(255) NOT NULL,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
-                email VARCHAR(255) UNIQUE,
-                isAdmin BOOLEAN DEFAULT false
-            )`;
+        CREATE TABLE IF NOT EXISTS users (
+            userId CHAR(36) PRIMARY KEY DEFAULT (UUID()), 
+            firstName VARCHAR(255) NOT NULL, 
+            lastName VARCHAR(255) NOT NULL, 
+            username VARCHAR(255) NOT NULL UNIQUE, 
+            password VARCHAR(255) NOT NULL, 
+            email VARCHAR(255) UNIQUE
+        )`;
+
+    // Create a hashed password
+    const hashedPassword = await hashPassword("changeMe");
+
+    // If the table did not exist, create a default user
+    const createDefaultUserQuery = `
+        INSERT INTO users (
+            firstName, 
+            lastName, 
+            username, 
+            password, 
+            email
+        ) VALUES (
+            'Admin', 
+            'User', 
+            'Administrator', 
+            '${hashedPassword}', 
+            'admin@example.com'
+        )`;
 
     try {
         // Execute the SQL query to create the 'uptimeUsers' table
         await connection.execute(createTableQuery);
-        console.log("🟢 | Users table successfully created");
+        await connection.execute(createDefaultUserQuery);
+        console.log("🟢 | Users table successfully created and default user created");
     } catch (error) {
         console.error("🔴| Error creating users table: ", error);
     } finally {
@@ -44,32 +63,59 @@ async function checkUserTable(connection: any) {
 }
 
 /**
- * Function to check if there is already a default user in the database.
- * If there is no users table, then a deafult user will be created.
- * Otherwise, it will be assumed that one is already present.
  *
- * @param {mysql.Connection} connection
- * @returns
+ * @param connection The connection to the database.
  */
-async function checkDefaultUser(connection: any) {
-    // Check if user table already exists
-    const tableExists = await checkUserTable(connection);
+async function checkMonitorTable(connection: any) {
+    // Check if the 'monitors' table already exists
+    const [rows] = await connection.execute("SHOW TABLES LIKE 'monitors'");
+    if (rows.length > 0) {
+        console.warn("🟠 | Monitors table already exists.");
+        return true;
+    }
 
-    // If the table exists, return true
-    if (tableExists) return true;
+    // Create the monitors table if it did not exist
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS monitors (
+            monitorID CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+            name VARCHAR(255) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            port INT NOT NULL,
+            requestInterval INT NOT NULL,
+            timeout INT NOT NULL,
+            status BOOLEAN DEFAULT false,
+            history JSON NOT NULL
+        )`;
 
-    // Create a hashed password
-    const hashedPassword = await hashPassword("changeMe");
-
-    // If the table did not exist, create a default user
-    const createDefaultUserQuery = `INSERT INTO users (firstName, lastName, username, password, email, isAdmin) VALUES ('Admin', 'User', 'Administrator', '${hashedPassword}', 'admin@example.com', true)`;
+    // Insert test monitor into db
+    const insertTestMonitorQuery = `
+        INSERT INTO monitors (
+            name, 
+            address, 
+            port, 
+            requestInterval, 
+            timeout, 
+            status, 
+            history
+        ) VALUES (
+            'Test Monitor', 
+            'localhost', 
+            3000, 
+            5, 
+            2, 
+            false, 
+            '[]'
+        )`;
 
     try {
-        // Execute the SQL query to create the default user
-        await connection.execute(createDefaultUserQuery);
-        console.log("🟢 | Default user created successfully.");
+        // Execute the SQL query to create the 'monitors' table
+        await connection.execute(createTableQuery);
+        await connection.execute(insertTestMonitorQuery);
+        console.log("🟢 | Monitors table successfully created and default monitor created");
     } catch (error) {
-        console.error("🔴 | Error creating default user: ", error);
+        console.error("🔴 | Error creating monitors table: ", error);
+    } finally {
+        return false;
     }
 }
 
@@ -81,7 +127,10 @@ async function main() {
     const connection = await connectToDb();
 
     // Check if the default user exists
-    const user = await checkDefaultUser(connection);
+    await checkUserTable(connection);
+
+    // Check if the monitors table exists
+    await checkMonitorTable(connection);
 
     // Close the database connection
     try {
