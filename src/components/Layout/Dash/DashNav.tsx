@@ -65,7 +65,7 @@ interface DashNavProps {}
  */
 function DashNav({}: DashNavProps) {
     return (
-        <nav className={"md:w-full md:max-w-60 h-[100dvh] bg-[var(--background-alt)] shadow-md"}>
+        <nav className={"hidden md:block md:w-full md:max-w-60 h-[100dvh] bg-[var(--background-alt)] shadow-md"}>
             <div className={"flex flex-col items-center justify-start w-full h-full p-3"}>
                 {/* Navigation Branding */}
                 <div></div>
