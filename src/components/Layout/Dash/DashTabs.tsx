@@ -48,17 +48,17 @@ function DashTabs({}: DashTabsProps) {
     return (
         <>
             <div className={"flex-grow md:hidden"}></div>
-            <nav className={"w-full h-max bg-[var(--background-alt)] shadow-md md:hidden"}>
+            <nav className={"w-full h-max bg-[var(--background-alt)] shadow-md md:hidden border-t border-solid border-[var(--background-hover)]"}>
                 <div className={"flex flex-col items-center justify-start w-full h-full p-4"}>
                     <div className={"w-full flex flex-row gap-2 justify-between"}>
                         <NavLink href={"/dashboard"}>
-                            <MdOutlineDashboard />
+                            <MdOutlineDashboard size={20} />
                         </NavLink>
                         <NavLink href={"/dashboard/pages"}>
-                            <CgWebsite />
+                            <CgWebsite size={20} />
                         </NavLink>
                         <NavLink href={"/dashboard/profile"}>
-                            <img src={getGravatar(session?.user.email, { size: 50 })} alt={session?.user.fname} className={"rounded-full w-6 h-6"} />
+                            <img src={getGravatar(session?.user.email, { size: 50 })} alt={session?.user.fname} className={"rounded-full w-7 h-7"} />
                         </NavLink>
                     </div>
                 </div>
