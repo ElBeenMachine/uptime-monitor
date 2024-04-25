@@ -16,7 +16,7 @@ import Link from "next/link";
  */
 function UserCard() {
     // Get user from session
-    const { data: session, status }: any = useSession();
+    const { data: session }: any = useSession();
 
     return (
         <Link
