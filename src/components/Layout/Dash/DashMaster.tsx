@@ -7,6 +7,7 @@ import React from "react";
 
 import { Poppins } from "next/font/google";
 import DashNav from "./DashNav";
+import DashTabs from "./DashTabs";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -26,11 +27,12 @@ function MasterPage({ children, pageTitle }: MasterPageProps) {
             <Head>
                 <title>{pageTitle}</title>
             </Head>
-            <div id={"dash-viewport"} className={"w-full flex flex-nowrap"}>
+            <div id={"dash-viewport"} className={"w-full h-[100dvh] flex flex-nowrap flex-col md:flex-row"}>
                 <DashNav />
-                <div id={"dash-content"} className={"w-full p-5"}>
+                <div id={"dash-content"} className={"w-full h-full p-4 flex flex-col overflow-auto"}>
                     {children}
                 </div>
+                <DashTabs />
             </div>
         </main>
     );

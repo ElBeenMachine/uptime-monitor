@@ -23,7 +23,7 @@ async function checkUserTable(connection: any) {
     // Create the user table if it did not exist
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS users (
-            userId CHAR(36) PRIMARY KEY DEFAULT (UUID()), 
+            id CHAR(36) PRIMARY KEY DEFAULT (UUID()), 
             firstName VARCHAR(255) NOT NULL, 
             lastName VARCHAR(255) NOT NULL, 
             username VARCHAR(255) NOT NULL UNIQUE, 
@@ -63,6 +63,7 @@ async function checkUserTable(connection: any) {
 }
 
 /**
+ * Function to check if the monitors table exists in the database. If the table does not exist, it will be created.
  *
  * @param connection The connection to the database.
  */
@@ -77,14 +78,14 @@ async function checkMonitorTable(connection: any) {
     // Create the monitors table if it did not exist
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS monitors (
-            monitorID CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+            id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
             name VARCHAR(255) NOT NULL,
             address VARCHAR(255) NOT NULL,
             port INT NOT NULL,
+            protocol VARCHAR(255) NOT NULL,
             requestInterval INT NOT NULL,
             timeout INT NOT NULL,
-            status BOOLEAN DEFAULT false,
-            history JSON NOT NULL
+            status VARCHAR(255) DEFAULT "down"
         )`;
 
     // Insert test monitor into db
@@ -93,18 +94,16 @@ async function checkMonitorTable(connection: any) {
             name, 
             address, 
             port, 
+            protocol,
             requestInterval, 
-            timeout, 
-            status, 
-            history
+            timeout
         ) VALUES (
             'Test Monitor', 
             'localhost', 
             3000, 
+            'http',
             5, 
-            2, 
-            false, 
-            '[]'
+            2
         )`;
 
     try {
@@ -114,6 +113,39 @@ async function checkMonitorTable(connection: any) {
         console.log("🟢 | Monitors table successfully created and default monitor created");
     } catch (error) {
         console.error("🔴 | Error creating monitors table: ", error);
+    } finally {
+        return false;
+    }
+}
+
+/**
+ * Function to check if the history table exists in the database. If the table does not exist, it will be created.
+ */
+async function checkHistoryTable(connection: any) {
+    // Check if the 'history' table already exists
+    const [rows] = await connection.execute("SHOW TABLES LIKE 'history'");
+    if (rows.length > 0) {
+        console.warn("🟠 | History table already exists.");
+        return true;
+    }
+
+    // Create the history table if it did not exist
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS history (
+            id INT AUTO_INCREMENT,
+            monitorID VARCHAR(255) NOT NULL,
+            status VARCHAR(255) NOT NULL,
+            timestamp VARCHAR(255) NOT NULL,
+            PRIMARY KEY (id),
+            FOREIGN KEY (monitorID) REFERENCES monitors(id)
+        )`;
+
+    try {
+        // Execute the SQL query to create the 'history' table
+        await connection.execute(createTableQuery);
+        console.log("🟢 | History table successfully created");
+    } catch (error) {
+        console.error("🔴 | Error creating history table: ", error);
     } finally {
         return false;
     }
@@ -131,6 +163,9 @@ async function main() {
 
     // Check if the monitors table exists
     await checkMonitorTable(connection);
+
+    // Check if the history table exists
+    await checkHistoryTable(connection);
 
     // Close the database connection
     try {
