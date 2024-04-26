@@ -37,6 +37,9 @@ const authOptions = {
                 const query = `SELECT * FROM users WHERE email = "${email}" LIMIT 1;`;
                 const user = (await connection.execute(query))[0][0];
 
+                // Close the connection
+                connection.end();
+
                 // If no user was found, return null
                 if (!user) return null;
 

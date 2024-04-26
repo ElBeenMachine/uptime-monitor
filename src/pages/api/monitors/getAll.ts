@@ -22,4 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Return the monitors
     res.status(200).json({ monitors: monitors[0] });
+
+    // Close the connection
+    connection.end();
 }

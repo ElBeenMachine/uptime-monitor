@@ -102,7 +102,7 @@ async function checkMonitorTable(connection: any) {
             'localhost', 
             3000, 
             'http',
-            5, 
+            15, 
             2
         )`;
 
