@@ -25,9 +25,9 @@ function HomeCard({ title, width = "full", children }: HomeCardProps) {
     }
 
     return (
-        <div className={`bg-[var(--background-alt)] shadow-lg rounded-lg p-4 ${widthClass} select-none`}>
+        <div className={`bg-[var(--background-alt)] shadow-lg rounded-lg p-4 ${widthClass} select-none flex flex-col`}>
             <h2 className="text-xl font-semibold w-full mb-4">{title}</h2>
-            {children}
+            <div className={"flex flex-col flex-grow"}>{children}</div>
         </div>
     );
 }
