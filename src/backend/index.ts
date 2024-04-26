@@ -31,11 +31,11 @@ export async function pingMonitor(_id: string) {
     // Determine the flow based on the protocol
     switch (monitor.protocol) {
         case "http":
-            response = await pingHttp(monitor.address, monitor.port);
+            response = await pingHttp(monitor.address, monitor.port, monitor.timeout);
             break;
 
         case "https":
-            response = await pingHttps(monitor.address, monitor.port);
+            response = await pingHttps(monitor.address, monitor.port, monitor.timeout);
             break;
 
         default:
@@ -139,9 +139,23 @@ export async function startMonitor(monitor: any) {
 }
 
 /**
+ * Reset the status of all monitors to down
+ */
+export async function resetMonitors() {
+    // Create a database connection
+    const connection = await connectToDb();
+
+    // Update all the monitors
+    const query = `UPDATE monitors SET status = "down";`;
+    await connection.execute(query);
+    await connection.end();
+}
+
+/**
  * Main method
  */
 (async () => {
+    await resetMonitors();
     await updateMonitors();
 
     // Set an interval to update the monitors every 1 minute
