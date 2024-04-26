@@ -5,10 +5,10 @@ import responseInterface from "./responseInterface";
  *
  * @param address The address to ping
  */
-export async function pingHttp(address: string, port: number) {
+export async function pingHttp(address: string, port: number, timeout: number = 10) {
     // Ping the monitor
     try {
-        await fetch(`http://${address}:${port}`);
+        await fetch(`http://${address}:${port}`, { signal: AbortSignal.timeout(timeout * 1000) });
 
         return {
             timestamp: new Date().toISOString(),
@@ -27,10 +27,10 @@ export async function pingHttp(address: string, port: number) {
  *
  * @param address The address to ping
  */
-export async function pingHttps(address: string, port: number) {
+export async function pingHttps(address: string, port: number, timeout: number = 10) {
     // Ping the monitor
     try {
-        await fetch(`https://${address}:${port}`);
+        await fetch(`https://${address}:${port}`, { signal: AbortSignal.timeout(timeout * 1000) });
 
         return {
             timestamp: new Date().toISOString(),
