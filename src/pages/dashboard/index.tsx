@@ -10,6 +10,7 @@ import { uptime } from "process";
 // Import the package information
 import packageInfo from "../../../package.json";
 import HomeCard from "@/components/Home/HomeCard";
+import { AreaChart, Card, EventProps } from "@tremor/react";
 
 // Function to format a time string
 function formatTime(seconds: number) {
@@ -23,7 +24,141 @@ function formatTime(seconds: number) {
     var hDisplay = h > 0 ? h + "h " : "";
     var mDisplay = m > 0 ? m + "m " : "";
     var sDisplay = s > 0 ? s + "s" : "";
-    return dDisplay + hDisplay + mDisplay + sDisplay;
+    return dDisplay + (!d ? hDisplay : "") + (!d ? mDisplay : "") + (!h ? sDisplay : "");
+}
+
+const data = [
+    {
+        month: "January",
+        rain: 2.8,
+        snow: 17.3,
+    },
+    {
+        month: "February",
+        rain: 1.2,
+        snow: 8.9,
+    },
+    {
+        month: "March",
+        rain: 3.1,
+        snow: 5.2,
+    },
+    {
+        month: "April",
+        rain: 4.5,
+        snow: 0.1,
+    },
+    {
+        month: "May",
+        rain: 5.2,
+        snow: 0.0,
+    },
+    {
+        month: "June",
+        rain: 4.8,
+        snow: 0.0,
+    },
+    {
+        month: "July",
+        rain: 3.9,
+        snow: 0.0,
+    },
+    {
+        month: "August",
+        rain: 3.4,
+        snow: 0.0,
+    },
+    {
+        month: "September",
+        rain: 2.9,
+        snow: 0.0,
+    },
+    {
+        month: "October",
+        rain: 2.3,
+        snow: 1.4,
+    },
+    {
+        month: "November",
+        rain: 1.8,
+        snow: 7.5,
+    },
+    {
+        month: "December",
+        rain: 1.5,
+        snow: 12.8,
+    },
+    {
+        month: "January",
+        rain: 2.8,
+        snow: 17.3,
+    },
+    {
+        month: "February",
+        rain: 1.2,
+        snow: 8.9,
+    },
+    {
+        month: "March",
+        rain: 3.1,
+        snow: 5.2,
+    },
+    {
+        month: "April",
+        rain: 4.5,
+        snow: 0.1,
+    },
+    {
+        month: "May",
+        rain: 5.2,
+        snow: 0.0,
+    },
+    {
+        month: "June",
+        rain: 4.8,
+        snow: 0.0,
+    },
+    {
+        month: "July",
+        rain: 3.9,
+        snow: 0.0,
+    },
+    {
+        month: "August",
+        rain: 3.4,
+        snow: 0.0,
+    },
+    {
+        month: "September",
+        rain: 2.9,
+        snow: 0.0,
+    },
+    {
+        month: "October",
+        rain: 2.3,
+        snow: 1.4,
+    },
+    {
+        month: "November",
+        rain: 1.8,
+        snow: 7.5,
+    },
+    {
+        month: "December",
+        rain: 1.5,
+        snow: 12.8,
+    },
+];
+
+function AreaChartDemo() {
+    const [value, setValue] = useState<null | EventProps>(null);
+    return (
+        <div className="not-prose">
+            <Card>
+                <AreaChart data={data} index="month" categories={["rain", "snow"]} onValueChange={(v: EventProps) => setValue(v)} />
+            </Card>
+        </div>
+    );
 }
 
 /**
@@ -105,8 +240,11 @@ export default function DashboardHome() {
                 </HomeCard>
                 <HomeCard title="System Uptime" width={"quarter"}>
                     <div className={"w-full min-h-24 flex-grow flex justify-center items-center"}>
-                        <span className={"text-5xl"}>{formatTime(systemUptime)}</span>
+                        <span className={"text-5xl"}>{systemUptime == 0 ? "Loading..." : formatTime(systemUptime)}</span>
                     </div>
+                </HomeCard>
+                <HomeCard title={"Uptime"} width={"full"}>
+                    <AreaChartDemo />
                 </HomeCard>
             </div>
 

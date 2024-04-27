@@ -11,6 +11,10 @@
         "docker-prepare": "npx tsx init-db.ts"
     },
     "dependencies": {
+        "@headlessui/react": "^1.7.19",
+        "@headlessui/tailwindcss": "^0.2.0",
+        "@remixicon/react": "^4.2.0",
+        "@tremor/react": "^3.16.1",
         "@types/mysql": "^2.15.26",
         "@types/next-auth": "^3.15.0",
         "bcrypt": "^5.1.1",
@@ -23,6 +27,7 @@
         "react-icons": "^5.1.0"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.7",
         "@types/bcrypt": "^5.0.2",
         "@types/node": "^20.11.30",
         "@types/react": "^18",
