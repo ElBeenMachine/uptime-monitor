@@ -1,3 +1,5 @@
+[![Publish Production Docker Image](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml/badge.svg)](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml)
+
 # Uptime Monitor
 
 [beenhamo/uptime-monitor](https://hub.docker.com/r/beenhamo/uptime-monitor)
