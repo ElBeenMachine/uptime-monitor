@@ -3,13 +3,10 @@
  */
 
 import MasterPage from "@/components/Layout/Dash/DashMaster";
+import HomeCard from "@/components/Home/HomeCard";
 import { useEffect } from "react";
 import { useState } from "react";
-import { uptime } from "process";
-
-// Import the package information
-import packageInfo from "../../../package.json";
-import HomeCard from "@/components/Home/HomeCard";
+import { AreaChart, EventProps } from "@tremor/react";
 
 // Function to format a time string
 function formatTime(seconds: number) {
@@ -23,7 +20,7 @@ function formatTime(seconds: number) {
     var hDisplay = h > 0 ? h + "h " : "";
     var mDisplay = m > 0 ? m + "m " : "";
     var sDisplay = s > 0 ? s + "s" : "";
-    return dDisplay + hDisplay + mDisplay + sDisplay;
+    return dDisplay + (!d ? hDisplay : "") + (!d ? mDisplay : "") + (!h ? sDisplay : "");
 }
 
 /**
@@ -35,6 +32,8 @@ export default function DashboardHome() {
     // State to store the monitors
     const [monitors, setMonitors] = useState([]);
     const [systemUptime, setSystemUptime] = useState(0);
+    const [history, setHistory] = useState([]);
+    const [graphValue, setGraphValue] = useState<null | EventProps>(null);
 
     useEffect(() => {
         // Fetch the monitors
@@ -53,15 +52,27 @@ export default function DashboardHome() {
             fetchMonitors();
         }, 5000);
 
-        // Update the system uptime every second
-        const uptimeInterval = setInterval(() => {
-            // Fetch the uptime
-            fetch("/api/uptime")
-                .then((res) => res.json())
-                .then((data) => {
-                    setSystemUptime(data.uptime);
-                });
-        }, 1000);
+        // Fetch the uptime
+        let uptimeInterval: any;
+        fetch("/api/uptime")
+            .then((res) => res.json())
+            .then((data) => {
+                setSystemUptime(data.uptime);
+                uptimeInterval = setInterval(() => {
+                    setSystemUptime((uptime) => uptime + 1);
+                }, 1000);
+            });
+
+        // Fetch the monitor history
+        const fetchHistory = async () => {
+            console.log(`[${new Date().toLocaleTimeString()}] Updating History`);
+            const res = await fetch("/api/monitors/getHistory");
+            const data = await res.json();
+            setHistory(data);
+        };
+
+        // Log the history
+        fetchHistory();
 
         // Clear the interval
         return () => {
@@ -69,6 +80,7 @@ export default function DashboardHome() {
             clearInterval(uptimeInterval);
         };
     }, []);
+
     return (
         <MasterPage pageTitle="Dashboard">
             <div className={"flex flex-wrap gap-4"}>
@@ -93,32 +105,27 @@ export default function DashboardHome() {
                 <HomeCard title="Online Monitors" width={"quarter"}>
                     <div className={"w-full min-h-24 flex flex-col justify-between items-center"}>
                         <span className={"text-5xl"}>
-                            {(monitors.filter((x: { status: string }) => {
-                                return x.status == "up";
-                            }).length /
-                                monitors.length) *
-                                100 +
-                                "%"}
+                            {Math.floor(
+                                (monitors.filter((x: { status: string }) => {
+                                    return x.status == "up";
+                                }).length /
+                                    monitors.length) *
+                                    100
+                            ) + "%"}
                         </span>
                         <p className={"mt-3"}>Of Monitors Online</p>
                     </div>
                 </HomeCard>
                 <HomeCard title="System Uptime" width={"quarter"}>
                     <div className={"w-full min-h-24 flex-grow flex justify-center items-center"}>
-                        <span className={"text-5xl"}>{formatTime(systemUptime)}</span>
+                        <span className={"text-5xl"}>{systemUptime == 0 ? "Loading..." : formatTime(systemUptime)}</span>
                     </div>
                 </HomeCard>
-            </div>
-
-            <div className={"flex-grow"}></div>
-
-            <div className={"text-center pt-5 w-full"}>
-                <p>
-                    ♥ Powered by{" "}
-                    <a href={"https://www.github.com/ElBeenMachine/uptime-monitor"} className={"underline"} target={"_blank"}>
-                        {packageInfo.name} v{packageInfo.version}
-                    </a>
-                </p>
+                <HomeCard title={"Uptime"} width={"full"}>
+                    <div className="bg-[var(--background)] p-5 rounded-md shadow-sm">
+                        <AreaChart data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
+                    </div>
+                </HomeCard>
             </div>
         </MasterPage>
     );
