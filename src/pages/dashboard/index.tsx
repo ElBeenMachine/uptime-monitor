@@ -3,14 +3,10 @@
  */
 
 import MasterPage from "@/components/Layout/Dash/DashMaster";
+import HomeCard from "@/components/Home/HomeCard";
 import { useEffect } from "react";
 import { useState } from "react";
-import { uptime } from "process";
-
-// Import the package information
-import packageInfo from "../../../package.json";
-import HomeCard from "@/components/Home/HomeCard";
-import { AreaChart, Card, EventProps } from "@tremor/react";
+import { AreaChart, EventProps } from "@tremor/react";
 
 // Function to format a time string
 function formatTime(seconds: number) {
@@ -27,138 +23,6 @@ function formatTime(seconds: number) {
     return dDisplay + (!d ? hDisplay : "") + (!d ? mDisplay : "") + (!h ? sDisplay : "");
 }
 
-const data = [
-    {
-        month: "January",
-        rain: 2.8,
-        snow: 17.3,
-    },
-    {
-        month: "February",
-        rain: 1.2,
-        snow: 8.9,
-    },
-    {
-        month: "March",
-        rain: 3.1,
-        snow: 5.2,
-    },
-    {
-        month: "April",
-        rain: 4.5,
-        snow: 0.1,
-    },
-    {
-        month: "May",
-        rain: 5.2,
-        snow: 0.0,
-    },
-    {
-        month: "June",
-        rain: 4.8,
-        snow: 0.0,
-    },
-    {
-        month: "July",
-        rain: 3.9,
-        snow: 0.0,
-    },
-    {
-        month: "August",
-        rain: 3.4,
-        snow: 0.0,
-    },
-    {
-        month: "September",
-        rain: 2.9,
-        snow: 0.0,
-    },
-    {
-        month: "October",
-        rain: 2.3,
-        snow: 1.4,
-    },
-    {
-        month: "November",
-        rain: 1.8,
-        snow: 7.5,
-    },
-    {
-        month: "December",
-        rain: 1.5,
-        snow: 12.8,
-    },
-    {
-        month: "January",
-        rain: 2.8,
-        snow: 17.3,
-    },
-    {
-        month: "February",
-        rain: 1.2,
-        snow: 8.9,
-    },
-    {
-        month: "March",
-        rain: 3.1,
-        snow: 5.2,
-    },
-    {
-        month: "April",
-        rain: 4.5,
-        snow: 0.1,
-    },
-    {
-        month: "May",
-        rain: 5.2,
-        snow: 0.0,
-    },
-    {
-        month: "June",
-        rain: 4.8,
-        snow: 0.0,
-    },
-    {
-        month: "July",
-        rain: 3.9,
-        snow: 0.0,
-    },
-    {
-        month: "August",
-        rain: 3.4,
-        snow: 0.0,
-    },
-    {
-        month: "September",
-        rain: 2.9,
-        snow: 0.0,
-    },
-    {
-        month: "October",
-        rain: 2.3,
-        snow: 1.4,
-    },
-    {
-        month: "November",
-        rain: 1.8,
-        snow: 7.5,
-    },
-    {
-        month: "December",
-        rain: 1.5,
-        snow: 12.8,
-    },
-];
-
-function AreaChartDemo() {
-    const [value, setValue] = useState<null | EventProps>(null);
-    return (
-        <div className="bg-[var(--background)] p-5 rounded-md border border-solid shadow-sm">
-            <AreaChart data={data} index="month" categories={["rain", "snow"]} onValueChange={(v: EventProps) => setValue(v)} />
-        </div>
-    );
-}
-
 /**
  * Function to create the dashboard home page.
  *
@@ -168,6 +32,8 @@ export default function DashboardHome() {
     // State to store the monitors
     const [monitors, setMonitors] = useState([]);
     const [systemUptime, setSystemUptime] = useState(0);
+    const [history, setHistory] = useState([]);
+    const [graphValue, setGraphValue] = useState<null | EventProps>(null);
 
     useEffect(() => {
         // Fetch the monitors
@@ -186,15 +52,27 @@ export default function DashboardHome() {
             fetchMonitors();
         }, 5000);
 
-        // Update the system uptime every second
-        const uptimeInterval = setInterval(() => {
-            // Fetch the uptime
-            fetch("/api/uptime")
-                .then((res) => res.json())
-                .then((data) => {
-                    setSystemUptime(data.uptime);
-                });
-        }, 1000);
+        // Fetch the uptime
+        let uptimeInterval: any;
+        fetch("/api/uptime")
+            .then((res) => res.json())
+            .then((data) => {
+                setSystemUptime(data.uptime);
+                uptimeInterval = setInterval(() => {
+                    setSystemUptime((uptime) => uptime + 1);
+                }, 1000);
+            });
+
+        // Fetch the monitor history
+        const fetchHistory = async () => {
+            console.log(`[${new Date().toLocaleTimeString()}] Updating History`);
+            const res = await fetch("/api/monitors/getHistory");
+            const data = await res.json();
+            setHistory(data);
+        };
+
+        // Log the history
+        fetchHistory();
 
         // Clear the interval
         return () => {
@@ -202,6 +80,7 @@ export default function DashboardHome() {
             clearInterval(uptimeInterval);
         };
     }, []);
+
     return (
         <MasterPage pageTitle="Dashboard">
             <div className={"flex flex-wrap gap-4"}>
@@ -226,12 +105,13 @@ export default function DashboardHome() {
                 <HomeCard title="Online Monitors" width={"quarter"}>
                     <div className={"w-full min-h-24 flex flex-col justify-between items-center"}>
                         <span className={"text-5xl"}>
-                            {(monitors.filter((x: { status: string }) => {
-                                return x.status == "up";
-                            }).length /
-                                monitors.length) *
-                                100 +
-                                "%"}
+                            {Math.floor(
+                                (monitors.filter((x: { status: string }) => {
+                                    return x.status == "up";
+                                }).length /
+                                    monitors.length) *
+                                    100
+                            ) + "%"}
                         </span>
                         <p className={"mt-3"}>Of Monitors Online</p>
                     </div>
@@ -242,7 +122,9 @@ export default function DashboardHome() {
                     </div>
                 </HomeCard>
                 <HomeCard title={"Uptime"} width={"full"}>
-                    <AreaChartDemo />
+                    <div className="bg-[var(--background)] p-5 rounded-md shadow-sm">
+                        <AreaChart data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
+                    </div>
                 </HomeCard>
             </div>
         </MasterPage>

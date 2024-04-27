@@ -88,6 +88,8 @@ async function checkMonitorTable(connection: any) {
             status VARCHAR(255) DEFAULT "down"
         )`;
 
+    // INSERT INTO monitors (name, address, port, protocol,requestInterval, timeout) VALUES ('Google Monitor', 'google.com', 443, 'https', 15, 2);
+
     // Insert test monitor into db
     const insertTestMonitorQuery = `
         INSERT INTO monitors (
@@ -104,7 +106,7 @@ async function checkMonitorTable(connection: any) {
             'http',
             15, 
             2
-        )`;
+        ); `;
 
     try {
         // Execute the SQL query to create the 'monitors' table
@@ -135,7 +137,7 @@ async function checkHistoryTable(connection: any) {
             id INT AUTO_INCREMENT,
             monitorID VARCHAR(255) NOT NULL,
             status VARCHAR(255) NOT NULL,
-            timestamp VARCHAR(255) NOT NULL,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             FOREIGN KEY (monitorID) REFERENCES monitors(id)
         )`;
