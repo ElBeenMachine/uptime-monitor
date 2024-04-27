@@ -153,10 +153,8 @@ const data = [
 function AreaChartDemo() {
     const [value, setValue] = useState<null | EventProps>(null);
     return (
-        <div className="not-prose">
-            <Card>
-                <AreaChart data={data} index="month" categories={["rain", "snow"]} onValueChange={(v: EventProps) => setValue(v)} />
-            </Card>
+        <div className="bg-[var(--background)] p-5 rounded-md border border-solid shadow-sm">
+            <AreaChart data={data} index="month" categories={["rain", "snow"]} onValueChange={(v: EventProps) => setValue(v)} />
         </div>
     );
 }
@@ -246,17 +244,6 @@ export default function DashboardHome() {
                 <HomeCard title={"Uptime"} width={"full"}>
                     <AreaChartDemo />
                 </HomeCard>
-            </div>
-
-            <div className={"flex-grow"}></div>
-
-            <div className={"text-center pt-5 w-full"}>
-                <p>
-                    ♥ Powered by{" "}
-                    <a href={"https://www.github.com/ElBeenMachine/uptime-monitor"} className={"underline"} target={"_blank"}>
-                        {packageInfo.name} v{packageInfo.version}
-                    </a>
-                </p>
             </div>
         </MasterPage>
     );
