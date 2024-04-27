@@ -43,7 +43,7 @@ export async function pingMonitor(_id: string) {
     }
 
     // Update the history and the state of the monitor
-    const historyQuery = `INSERT INTO history (monitorID, status, timestamp) VALUES ("${_id}", "${response.status}", "${response.timestamp}");`;
+    const historyQuery = `INSERT INTO history (monitorID, status) VALUES ("${_id}", "${response.status}");`;
     const monitorQuery = `UPDATE monitors SET status = "${response.status}" WHERE id = "${_id}";`;
 
     await connection.execute(historyQuery);
