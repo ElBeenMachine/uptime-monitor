@@ -33,12 +33,10 @@ export async function pingHttps(address: string, port: number, timeout: number =
         await fetch(`https://${address}:${port}`, { signal: AbortSignal.timeout(timeout * 1000) });
 
         return {
-            timestamp: new Date().toISOString(),
             status: "up",
         } as responseInterface;
     } catch (error) {
         return {
-            timestamp: new Date().toISOString(),
             status: "down",
         } as responseInterface;
     }
