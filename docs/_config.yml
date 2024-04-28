@@ -1,0 +1,9 @@
+title: Uptime Monitor
+description: A starter template for a Jeykll site using the Just the Docs theme!
+theme: just-the-docs
+
+url: https://elbeenmachine.github.io/uptime-monitor/
+
+aux_links:
+    GitHub Repository: https://github.beenhamow.co.uk/uptime-monitor
+    The Developer: https://beenhamow.co.uk
