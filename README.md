@@ -1,5 +1,7 @@
 # Uptime Monitor
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c77b6452a13d4645a3787bdc99092814)](https://app.codacy.com/gh/ElBeenMachine/uptime-monitor/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Production](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml/badge.svg)](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml)
+
 [beenhamo/uptime-monitor](https://hub.docker.com/r/beenhamo/uptime-monitor)
 
 ## Getting Started
@@ -19,3 +21,5 @@ Password:
 ```
 changeMe
 ```
+
+## Contributors
