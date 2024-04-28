@@ -19,16 +19,4 @@ jobs:
                   BRANCH: "development"
                   PULL_REQUEST: "development"
                   COMMIT_MESSAGE: "Docs (README): update contributors"
-                  AVATAR_SHAPE: "round"
-            - uses: BobAnkh/add-contributors@master
-              with:
-                  CONTRIBUTOR: "## Contributors"
-                  COLUMN_PER_ROW: "6"
-                  ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
-                  IMG_WIDTH: "100"
-                  FONT_SIZE: "14"
-                  PATH: "/docs/index.md"
-                  BRANCH: "development"
-                  PULL_REQUEST: "development"
-                  COMMIT_MESSAGE: "Docs (Pages): update contributors"
-                  AVATAR_SHAPE: "round"
+                  AVATAR_SHAPE: "square"

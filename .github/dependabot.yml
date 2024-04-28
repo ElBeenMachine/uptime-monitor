@@ -10,4 +10,4 @@ updates:
       directory: "/"
       target-branch: "development"
       schedule:
-          interval: weekly
+          interval: daily
