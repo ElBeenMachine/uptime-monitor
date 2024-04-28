@@ -36,7 +36,7 @@ export default function DashboardHome() {
     const [graphValue, setGraphValue] = useState<null | EventProps>(null);
 
     useEffect(() => {
-        // Fetch the monitors
+        // Function to fetch the monitors
         const fetchMonitors = async () => {
             console.log(`[${new Date().toLocaleTimeString()}] Updating Monitors`);
             const res = await fetch("/api/monitors/getAll");
@@ -44,7 +44,7 @@ export default function DashboardHome() {
             setMonitors(data.monitors);
         };
 
-        // Log the monitors
+        // Fetch the monitors
         fetchMonitors();
 
         // Fetch the monitors every 5 seconds
@@ -63,7 +63,7 @@ export default function DashboardHome() {
                 }, 1000);
             });
 
-        // Fetch the monitor history
+        // Function to fetch the monitor history
         const fetchHistory = async () => {
             console.log(`[${new Date().toLocaleTimeString()}] Updating History`);
             const res = await fetch("/api/monitors/getHistory");
@@ -71,13 +71,18 @@ export default function DashboardHome() {
             setHistory(data);
         };
 
-        // Log the history
+        // Fetch the history
         fetchHistory();
+
+        const historyInterval = setInterval(() => {
+            fetchHistory();
+        }, 30000);
 
         // Clear the interval
         return () => {
             clearInterval(monitorInterval);
             clearInterval(uptimeInterval);
+            clearInterval(historyInterval);
         };
     }, []);
 
