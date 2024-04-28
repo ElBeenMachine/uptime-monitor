@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d09b4e8e55b34418bfdf191baf5cefc8)](https://app.codacy.com/gh/ElBeenMachine/uptime-monitor?utm_source=github.com&utm_medium=referral&utm_content=ElBeenMachine/uptime-monitor&utm_campaign=Badge_Grade)
 [![Publish Production Docker Image](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml/badge.svg)](https://github.com/ElBeenMachine/uptime-monitor/actions/workflows/publish-docker-production.yml)
 
 # Uptime Monitor
