@@ -7,6 +7,7 @@ import HomeCard from "@/components/Home/HomeCard";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AreaChart, EventProps } from "@tremor/react";
+import { useSession } from "next-auth/react";
 
 // Function to format a time string
 function formatTime(seconds: number) {
@@ -34,6 +35,9 @@ export default function DashboardHome() {
     const [systemUptime, setSystemUptime] = useState(0);
     const [history, setHistory] = useState([]);
     const [graphValue, setGraphValue] = useState<null | EventProps>(null);
+
+    // Get the session
+    const { data: session }: any = useSession();
 
     useEffect(() => {
         // Function to fetch the monitors
@@ -88,6 +92,7 @@ export default function DashboardHome() {
 
     return (
         <MasterPage pageTitle="Dashboard">
+            <h1 className={"text-4xl mb-4 font-semibold"}>Welcome Back, {session?.user.firstName}</h1>
             <div className={"flex flex-wrap gap-4"}>
                 <HomeCard title="Total Monitors" width={"quarter"}>
                     <div className={"w-full min-h-24 flex flex-col justify-between items-center"}>
@@ -128,7 +133,7 @@ export default function DashboardHome() {
                 </HomeCard>
                 <HomeCard title={"Uptime"} width={"full"}>
                     <div className="bg-[var(--background)] p-5 rounded-md shadow-sm">
-                        <AreaChart data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
+                        <AreaChart showAnimation={true} data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
                     </div>
                 </HomeCard>
             </div>

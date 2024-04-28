@@ -8,7 +8,8 @@
         "build": "next build",
         "lint": "next lint",
         "backend": "npx tsx src/backend/index.ts",
-        "docker-prepare": "npx tsx init-db.ts"
+        "docker-prepare": "npx tsx init-db.ts",
+        "docs": "cd ./docs && bundle install && bundle exec jekyll serve"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.19",
