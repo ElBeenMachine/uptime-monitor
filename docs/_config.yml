@@ -4,6 +4,8 @@ theme: just-the-docs
 
 url: https://elbeenmachine.github.io/uptime-monitor/
 
+color_scheme: dark
+
 aux_links:
     GitHub Repository: https://github.beenhamow.co.uk/uptime-monitor
     The Developer: https://beenhamow.co.uk

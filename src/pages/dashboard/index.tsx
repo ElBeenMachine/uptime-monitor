@@ -7,6 +7,7 @@ import HomeCard from "@/components/Home/HomeCard";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AreaChart, EventProps } from "@tremor/react";
+import { useSession } from "next-auth/react";
 
 // Function to format a time string
 function formatTime(seconds: number) {
@@ -35,8 +36,11 @@ export default function DashboardHome() {
     const [history, setHistory] = useState([]);
     const [graphValue, setGraphValue] = useState<null | EventProps>(null);
 
+    // Get the session
+    const { data: session }: any = useSession();
+
     useEffect(() => {
-        // Fetch the monitors
+        // Function to fetch the monitors
         const fetchMonitors = async () => {
             console.log(`[${new Date().toLocaleTimeString()}] Updating Monitors`);
             const res = await fetch("/api/monitors/getAll");
@@ -44,7 +48,7 @@ export default function DashboardHome() {
             setMonitors(data.monitors);
         };
 
-        // Log the monitors
+        // Fetch the monitors
         fetchMonitors();
 
         // Fetch the monitors every 5 seconds
@@ -63,7 +67,7 @@ export default function DashboardHome() {
                 }, 1000);
             });
 
-        // Fetch the monitor history
+        // Function to fetch the monitor history
         const fetchHistory = async () => {
             console.log(`[${new Date().toLocaleTimeString()}] Updating History`);
             const res = await fetch("/api/monitors/getHistory");
@@ -71,18 +75,24 @@ export default function DashboardHome() {
             setHistory(data);
         };
 
-        // Log the history
+        // Fetch the history
         fetchHistory();
+
+        const historyInterval = setInterval(() => {
+            fetchHistory();
+        }, 30000);
 
         // Clear the interval
         return () => {
             clearInterval(monitorInterval);
             clearInterval(uptimeInterval);
+            clearInterval(historyInterval);
         };
     }, []);
 
     return (
         <MasterPage pageTitle="Dashboard">
+            <h1 className={"text-4xl mb-4 font-semibold"}>Welcome Back, {session?.user.firstName}</h1>
             <div className={"flex flex-wrap gap-4"}>
                 <HomeCard title="Total Monitors" width={"quarter"}>
                     <div className={"w-full min-h-24 flex flex-col justify-between items-center"}>
@@ -123,7 +133,7 @@ export default function DashboardHome() {
                 </HomeCard>
                 <HomeCard title={"Uptime"} width={"full"}>
                     <div className="bg-[var(--background)] p-5 rounded-md shadow-sm">
-                        <AreaChart data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
+                        <AreaChart showAnimation={true} data={history} index="timestamp" categories={["up", "down"]} colors={["green", "red"]} onValueChange={(v: EventProps) => setGraphValue(v)} />
                     </div>
                 </HomeCard>
             </div>

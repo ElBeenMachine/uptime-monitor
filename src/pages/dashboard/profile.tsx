@@ -3,6 +3,7 @@
  */
 
 import MasterPage from "@/components/Layout/Dash/DashMaster";
+import { getGravatar } from "@/utils/gravatar";
 import { signOut, useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 import { useRef, Ref, forwardRef } from "react";
@@ -44,7 +45,7 @@ const FormInput = forwardRef((props: { name: string }, ref: Ref<HTMLInputElement
  * @returns {ReactElements} The profile page
  */
 export default function Profile() {
-    const { data: session } = useSession();
+    const { data: session }: any = useSession();
 
     const fNameRef = useRef(null);
     const lNameRef = useRef(null);
@@ -67,7 +68,7 @@ export default function Profile() {
     return (
         <MasterPage pageTitle="My Profile">
             <h1 className={"text-3xl font-semibold"}>Profile</h1>
-            <div className={"flex gap-4 mt-4 flex-col lg:flex-row"}>
+            <div className={"flex gap-4 mt-4 flex-col-reverse lg:flex-row"}>
                 <div className={"w-full"}>
                     <h2 className={"text-2xl font-semibold border-b border-solid border-[var(--background-alt)] mb-2 pb-2"}>Account Information</h2>
 
@@ -86,9 +87,28 @@ export default function Profile() {
                         Sign Out
                     </button>
                 </div>
-                <div className={"w-full"}>
-                    <h2 className={"text-2xl font-semibold border-b border-solid border-[var(--background-alt)] mb-2 pb-2"}>Account Information</h2>
-                    <p className={"text-gray-500"}>Below is the information we have on file for your account. If you need to change any of this information, please contact support.</p>
+                <div className={"flex items-center flex-col"}>
+                    <img src={getGravatar(session?.user.email ?? "", { size: 2048 })} alt={session?.user.firstName ?? ""} className={"rounded-full w-52 h-52 "} />
+
+                    <p className={"text-gray-500 my-3 text-center"}>
+                        <em>
+                            Our profile pictures are powered by the third party{" "}
+                            <a href="https://gravatar.com/" target="_blank" className={"underline"}>
+                                Gravatar
+                            </a>
+                            . If you would like to change your profile picture, please visit{" "}
+                            <a href="https://gravatar.com/profile/avatars" target="_blank" className={"underline"}>
+                                this link.
+                            </a>
+                        </em>
+                    </p>
+                    <a
+                        href={"https://gravatar.com/profile/avatars"}
+                        target={"_blank"}
+                        className={"cursor-pointer block w-max rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}
+                    >
+                        Update Profile Picture
+                    </a>
                     <div className={"mt-4"}></div>
                 </div>
             </div>

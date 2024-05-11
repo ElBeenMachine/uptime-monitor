@@ -82,7 +82,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Add the up and down counts to the history
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         history.push({
-            timestamp: moment(date).tz(timezone).format("hh:mm"),
+            timestamp: moment(date).tz(timezone).format("HH:mm"),
             up: upCount,
             down: downCount,
         });
