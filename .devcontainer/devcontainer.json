@@ -1,14 +1,17 @@
 {
-    "name": "Node.js",
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+    "name": "Uptime Monitor",
+    "image": "mcr.microsoft.com/devcontainers/jekyll:0-bullseye",
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "latest"
+        }
     },
-    "forwardPorts": [3000],
-    "postCreateCommand": "npm install",
+    "forwardPorts": [3000, 4000],
+    "postCreateCommand": "sh .devcontainer/post-create.sh",
     "hostRequirements": {
-       "cpus": 4,
-       "memory": "16gb",
-       "storage": "32gb"
+        "cpus": 4,
+        "memory": "16gb",
+        "storage": "32gb"
     }
 }
