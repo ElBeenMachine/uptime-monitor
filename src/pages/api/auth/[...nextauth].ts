@@ -41,11 +41,11 @@ const authOptions = {
                 connection.end();
 
                 // If no user was found, return null
-                if (!user) return null;
+                if (!user) throw new Error("Invalid email or password");
 
                 // Bcrypt compare
                 const match = await bcrypt.compare(password, user.password);
-                if (!match) return null;
+                if (!match) throw new Error("Invalid email or password");
 
                 // Return the user object if everything is correct
                 return user;
@@ -72,10 +72,7 @@ const authOptions = {
         },
 
         session: async ({ session, token }: any) => {
-            if (token != undefined) {
-                session.user = token.user;
-            }
-
+            session.user = token.user;
             return session;
         },
     },
