@@ -10,11 +10,6 @@ import { useEffect, useRef } from "react";
 
 interface LoginPageProps {}
 
-// Define error definitions
-const definitions: { [key: string]: string } = {
-    CredentialsSignin: "Your username or password is incorrect.",
-};
-
 function LoginPage({}: LoginPageProps) {
     // Get search params
     const searchParams = useSearchParams();
@@ -59,7 +54,7 @@ function LoginPage({}: LoginPageProps) {
 
                             {error && (
                                 <div className="w-full bg-red-100 text-red-700 py-2 px-3 text-sm mb-2 rounded-md border border-red-300">
-                                    {definitions[error] || "An unexpected error has occurred when trying to log in"}
+                                    {error || "An unexpected error has occurred when trying to log in"}
                                 </div>
                             )}
 
