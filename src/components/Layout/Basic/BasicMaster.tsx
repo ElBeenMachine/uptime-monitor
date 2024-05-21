@@ -1,10 +1,3 @@
-/**
- * @author - @ElBeenMachine
- */
-
-import Head from "next/head";
-import React from "react";
-
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -16,18 +9,8 @@ const poppins = Poppins({
 
 interface MasterPageProps {
     children?: React.ReactNode;
-    pageTitle: string;
 }
 
-function MasterPage({ children, pageTitle }: MasterPageProps) {
-    return (
-        <main className={`${poppins.variable}`}>
-            <Head>
-                <title>{pageTitle}</title>
-            </Head>
-            {children}
-        </main>
-    );
+export default function MasterPage({ children }: MasterPageProps) {
+    return <main className={`${poppins.variable}`}>{children}</main>;
 }
-
-export default MasterPage;

@@ -1,8 +1,6 @@
 /**
  * @author - @ElBeenMachine
  */
-
-import Head from "next/head";
 import React from "react";
 
 import { Poppins } from "next/font/google";
@@ -18,15 +16,11 @@ const poppins = Poppins({
 
 interface MasterPageProps {
     children?: React.ReactNode;
-    pageTitle: string;
 }
 
-function MasterPage({ children, pageTitle }: MasterPageProps) {
+export default function MasterPage({ children }: MasterPageProps) {
     return (
         <main className={`${poppins.variable}`}>
-            <Head>
-                <title>{pageTitle}</title>
-            </Head>
             <div id={"dash-viewport"} className={"w-full h-[100dvh] flex flex-nowrap flex-col md:flex-row"}>
                 <DashNav />
                 <div id={"dash-content"} className={"w-full h-full p-4 flex flex-col overflow-auto"}>
@@ -37,5 +31,3 @@ function MasterPage({ children, pageTitle }: MasterPageProps) {
         </main>
     );
 }
-
-export default MasterPage;

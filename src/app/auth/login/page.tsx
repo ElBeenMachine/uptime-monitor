@@ -1,6 +1,4 @@
-/**
- * @author - @ElBeenMachine
- */
+"use client";
 
 import MasterPage from "@/components/Layout/Basic/BasicMaster";
 import AuthInput from "@/components/Auth/authInput";
@@ -15,7 +13,7 @@ function LoginPage({}: LoginPageProps) {
     const searchParams = useSearchParams();
 
     // See if there is an error
-    const error = searchParams.get("error");
+    const error = searchParams?.get("error");
 
     // Create refs for the email and password inputs
     const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -42,7 +40,7 @@ function LoginPage({}: LoginPageProps) {
     }
 
     return (
-        <MasterPage pageTitle="Login">
+        <MasterPage>
             <div id="auth-container" className="w-full h-[100dvh]">
                 <div className="flex flex-col items-center justify-center w-full h-full bg-[rgba(var(--background))]/40">
                     <div className="bg-[var(--background)] text-[var(--foreground)] p-6 px-8 w-full h-full flex items-center justify-center sm:block sm:rounded-md sm:w-max sm:h-max sm:shadow-lg">
