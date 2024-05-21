@@ -8,6 +8,7 @@ import { ReactElement } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import Link from "next/link";
+import React from "react";
 
 /**
  * Function to create a user card.
@@ -68,7 +69,7 @@ function DashNav({}: DashNavProps) {
 
                 {/* Navigation Links */}
                 <div className={"flex-grow w-full flex flex-col gap-2"}>
-                    <NavLink href={"/dashboard"} text={"Home"} icon={<MdOutlineDashboard />} />
+                    <NavLink href={"/dashboard/home"} text={"Home"} icon={<MdOutlineDashboard />} />
                     <NavLink href={"/dashboard/pages"} text={"Status Pages"} icon={<CgWebsite />} />
                 </div>
 

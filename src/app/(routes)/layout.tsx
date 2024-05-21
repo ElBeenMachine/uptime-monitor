@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import "@/styles/globals.css";
-import "@/styles/auth.css";
+import "./globals.css";
+import React from "react";
 
 interface LayoutProps {
     children: React.ReactNode;

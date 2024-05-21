@@ -1,28 +1,12 @@
-/**
- * @author - @ElBeenMachine
- */
+"use client";
 
-import MasterPage from "@/components/Layout/Dash/DashMaster";
-import HomeCard from "@/components/Home/HomeCard";
+import MasterPage from "../DashMaster";
+import HomeCard from "./HomeCard";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AreaChart, EventProps } from "@tremor/react";
-import { useSession } from "next-auth/react";
-
-// Function to format a time string
-function formatTime(seconds: number) {
-    seconds = Number(seconds);
-    var d = Math.floor(seconds / (3600 * 24));
-    var h = Math.floor((seconds % (3600 * 24)) / 3600);
-    var m = Math.floor((seconds % 3600) / 60);
-    var s = Math.floor(seconds % 60);
-    // console.log(d, h, m, s)
-    var dDisplay = d > 0 ? d + "d " : "";
-    var hDisplay = h > 0 ? h + "h " : "";
-    var mDisplay = m > 0 ? m + "m " : "";
-    var sDisplay = s > 0 ? s + "s" : "";
-    return dDisplay + (!d ? hDisplay : "") + (!d ? mDisplay : "") + (!h ? sDisplay : "");
-}
+import formatTime from "./uptimeFormatter";
+import React from "react";
 
 /**
  * Function to create the dashboard home page.
@@ -36,8 +20,7 @@ export default function DashboardHome() {
     const [history, setHistory] = useState([]);
     const [graphValue, setGraphValue] = useState<null | EventProps>(null);
 
-    // Get the session
-    const { data: session }: any = useSession();
+    // TODO: Get the session
 
     useEffect(() => {
         // Function to fetch the monitors
@@ -91,8 +74,8 @@ export default function DashboardHome() {
     }, []);
 
     return (
-        <MasterPage pageTitle="Dashboard">
-            <h1 className={"text-4xl mb-4 font-semibold"}>Welcome Back, {session?.user.firstName}</h1>
+        <MasterPage>
+            <h1 className={"text-4xl mb-4 font-semibold"}>Welcome Back, {"USERNAME"}</h1>
             <div className={"flex flex-wrap gap-4"}>
                 <HomeCard title="Total Monitors" width={"quarter"}>
                     <div className={"w-full min-h-24 flex flex-col justify-between items-center"}>

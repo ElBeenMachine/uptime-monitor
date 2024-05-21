@@ -1,13 +1,10 @@
-/**
- * @author - @ElBeenMachine
- */
-
-import MasterPage from "@/components/Layout/Basic/BasicMaster";
+import React from "react";
+import MasterPage from "../_components/Layout/BasicMaster";
 import Link from "next/link";
 
-function HomePage() {
+export default function NotFoundPage() {
     return (
-        <MasterPage pageTitle="Error 404 | Page Not Found">
+        <MasterPage>
             <div className={"w-full h-[100dvh] flex flex-col gap-3 items-center justify-center p-10"}>
                 <h1 className={"font-black text-3xl"}>404 - Page Not Found</h1>
 
@@ -20,5 +17,3 @@ function HomePage() {
         </MasterPage>
     );
 }
-
-export default HomePage;

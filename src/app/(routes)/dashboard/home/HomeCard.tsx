@@ -1,3 +1,5 @@
+import React from "react";
+
 interface HomeCardProps {
     title: string;
     width?: "full" | "half" | "quarter";

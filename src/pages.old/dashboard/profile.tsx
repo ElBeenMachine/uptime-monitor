@@ -2,11 +2,10 @@
  * @author - @ElBeenMachine
  */
 
-import MasterPage from "@/components/Layout/Dash/DashMaster";
+import MasterPage from "@/app/(routes)/dashboard/DashMaster";
 import { getGravatar } from "@/utils/gravatar";
 import { signOut, useSession } from "next-auth/react";
-import { ReactNode, useEffect } from "react";
-import { useRef, Ref, forwardRef } from "react";
+import { ReactNode, useEffect, useRef, Ref, forwardRef } from "react";
 
 interface FormContainerProps {
     children?: ReactNode;
@@ -66,7 +65,7 @@ export default function Profile() {
     }, [session]);
 
     return (
-        <MasterPage pageTitle="My Profile">
+        <MasterPage>
             <h1 className={"text-3xl font-semibold"}>Profile</h1>
             <div className={"flex gap-4 mt-4 flex-col-reverse lg:flex-row"}>
                 <div className={"w-full"}>

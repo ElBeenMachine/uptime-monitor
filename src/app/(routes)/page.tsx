@@ -1,6 +1,6 @@
 "use client";
 
-import MasterPage from "@/components/Layout/Basic/BasicMaster";
+import MasterPage from "@/components/Layout/BasicMaster";
 
 export default function Page() {
     return <MasterPage>Loading...</MasterPage>;

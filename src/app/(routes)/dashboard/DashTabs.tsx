@@ -2,9 +2,8 @@
  * @author - @ElBeenMachine
  */
 
+import React from "react";
 import { getGravatar } from "@/utils/gravatar";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
@@ -50,7 +49,7 @@ export default function DashTabs({}: DashTabsProps) {
             <nav className={"w-full h-max bg-[var(--background-alt)] shadow-md md:hidden border-t border-solid border-[var(--background-hover)]"}>
                 <div className={"flex flex-col items-center justify-start w-full h-full p-4"}>
                     <div className={"w-full flex flex-row gap-2 justify-between"}>
-                        <NavLink href={"/dashboard"}>
+                        <NavLink href={"/dashboard/home"}>
                             <MdOutlineDashboard size={20} />
                         </NavLink>
                         <NavLink href={"/dashboard/pages"}>

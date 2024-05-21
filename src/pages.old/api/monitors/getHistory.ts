@@ -3,7 +3,7 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDb } from "@/utils/db";
+import { connectToDb } from "@/global_utils/db";
 import moment from "moment";
 import "moment-timezone";
 
