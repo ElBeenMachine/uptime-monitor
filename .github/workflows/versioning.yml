@@ -25,7 +25,7 @@ jobs:
               uses: "phips28/gh-action-bump-version@master"
               with:
                   skip-tag: "true"
-                  patch-wording: "Patch, Patch, patch"
+                  patch-wording: "PATCH, Patch, patch"
                   minor-wording: "MINOR, Minor, minor"
                   major-wording: "MAJOR, Major, major"
               env:
