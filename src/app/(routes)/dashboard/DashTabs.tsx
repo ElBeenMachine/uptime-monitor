@@ -52,7 +52,7 @@ export default function DashTabs({}: DashTabsProps) {
                         <NavLink href={"/dashboard/home"}>
                             <MdOutlineDashboard size={20} />
                         </NavLink>
-                        <NavLink href={"/dashboard/pages"}>
+                        <NavLink href={"/dashboard/status-pages"}>
                             <CgWebsite size={20} />
                         </NavLink>
                         <NavLink href={"/dashboard/profile"}>

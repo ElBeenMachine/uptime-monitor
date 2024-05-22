@@ -70,7 +70,7 @@ function DashNav({}: DashNavProps) {
                 {/* Navigation Links */}
                 <div className={"flex-grow w-full flex flex-col gap-2"}>
                     <NavLink href={"/dashboard/home"} text={"Home"} icon={<MdOutlineDashboard />} />
-                    <NavLink href={"/dashboard/pages"} text={"Status Pages"} icon={<CgWebsite />} />
+                    <NavLink href={"/dashboard/status-pages"} text={"Status Pages"} icon={<CgWebsite />} />
                 </div>
 
                 {/* Navigation User Card */}

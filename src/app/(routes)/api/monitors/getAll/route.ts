@@ -1,16 +1,10 @@
-/**
- * @author - @ElBeenMachine
- */
-
-import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDb } from "@/global_utils/db";
 
 /**
  *
- * @param req The request object
- * @param res The response object
+ * @param {Request} req The request object
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request) {
     // Connect to the database
     const connection = await connectToDb();
 
@@ -20,9 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Get all monitors from the database
     const monitors = await connection.execute(query);
 
-    // Return the monitors
-    res.status(200).json({ monitors: monitors[0] });
-
     // Close the connection
     connection.end();
+
+    // Return the monitors
+    return Response.json({ monitors: monitors[0] });
 }

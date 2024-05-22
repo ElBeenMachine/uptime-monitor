@@ -1,5 +1,5 @@
 import React from "react";
-import MasterPage from "../_components/Layout/BasicMaster";
+import MasterPage from "@/components/Layout/BasicMaster";
 import Link from "next/link";
 
 export default function NotFoundPage() {

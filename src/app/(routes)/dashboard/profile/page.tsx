@@ -1,10 +1,8 @@
-/**
- * @author - @ElBeenMachine
- */
+"use client";
 
-import MasterPage from "@/app/(routes)/dashboard/DashMaster";
+import MasterPage from "../DashMaster";
 import { getGravatar } from "@/utils/gravatar";
-import { signOut, useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 import { ReactNode, useEffect, useRef, Ref, forwardRef } from "react";
 
 interface FormContainerProps {
@@ -44,12 +42,14 @@ const FormInput = forwardRef((props: { name: string }, ref: Ref<HTMLInputElement
  * @returns {ReactElements} The profile page
  */
 export default function Profile() {
-    const { data: session }: any = useSession();
+    // GET THE SESSION
 
     const fNameRef = useRef(null);
     const lNameRef = useRef(null);
     const emailRef = useRef(null);
     const usernameRef = useRef(null);
+
+    return notFound();
 
     useEffect(() => {
         if (session) {

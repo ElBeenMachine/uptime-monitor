@@ -1,18 +1,8 @@
-/**
- * @author - @ElBeenMachine
- */
-
-import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDb } from "@/global_utils/db";
 import moment from "moment";
 import "moment-timezone";
 
-/**
- *
- * @param req The request object
- * @param res The response object
- */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request) {
     // Connect to the database
     const connection = await connectToDb();
 
@@ -89,5 +79,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Return the results
-    res.status(200).json(history);
+    return Response.json(history);
 }
