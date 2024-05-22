@@ -12,10 +12,19 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "baseUrl": "./src",
         "paths": {
-            "@/*": ["./src/*"]
-        }
+            "@/*": ["./*"],
+            "@/utils/*": ["./app/_utils/*"],
+            "@/components/*": ["./app/_components/*"],
+            "@/global_utils/*": ["./utils/*"]
+        },
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/init-db.js", "src/utils/db.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/db.ts", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }

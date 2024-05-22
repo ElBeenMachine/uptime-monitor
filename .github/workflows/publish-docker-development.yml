@@ -20,8 +20,12 @@ jobs:
 
             - name: Build Docker image
               run: |
-                  docker build -t beenhamo/uptime-monitor:beta .
+                  VERSION=$(node -p "require('./package.json').version")
+                  docker build -t beenhamo/uptime-monitor:beta-$VERSION .
+                  docker tag beenhamo/uptime-monitor:beta-$VERSION beenhamo/uptime-monitor:beta
 
             - name: Push Docker images
               run: |
+                  VERSION=$(node -p "require('./package.json').version")
+                  docker push beenhamo/uptime-monitor:beta-$VERSION
                   docker push beenhamo/uptime-monitor:beta
