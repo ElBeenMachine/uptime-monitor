@@ -3,7 +3,6 @@
 import "./auth.css";
 import MasterPage from "../../../_components/Layout/BasicMaster";
 import AuthInput from "../../../_components/Auth/authInput";
-import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import React from "react";
