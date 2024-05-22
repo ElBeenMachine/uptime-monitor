@@ -1,4 +1,5 @@
 import { connectToDb } from "@/global_utils/db";
+export const dynamic = "force-dynamic";
 
 /**
  *

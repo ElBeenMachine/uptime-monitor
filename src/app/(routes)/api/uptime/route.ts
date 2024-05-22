@@ -1,4 +1,5 @@
 import process from "process";
+export const dynamic = "force-dynamic";
 
 /**
  * Function to get the system uptime.
