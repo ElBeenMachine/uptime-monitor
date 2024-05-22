@@ -1,5 +1,5 @@
 // Create a database connection
-import { connectToDb } from "@/utils/db";
+import { connectToDb } from "@/global_utils/db";
 import { pingHttp, pingHttps } from "./checks/http(s)";
 import responseInterface from "./checks/responseInterface";
 

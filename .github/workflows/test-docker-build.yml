@@ -1,8 +1,9 @@
 name: Build Docker Image
 
 on:
-    push:
-        branches: ["development"]
+    pull_request:
+        branches: ["staging"]
+        types: [synchronize, edited, opened]
 
 jobs:
     Build:
