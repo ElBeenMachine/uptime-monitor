@@ -3,8 +3,8 @@
  */
 
 // Import the required modules
-import { connectToDb } from "@/utils/db";
-import { hashPassword } from "@/utils/pass";
+import { connectToDb } from "@/global_utils/db";
+import { hashPassword } from "@/global_utils/pass";
 
 /**
  * Function to check if there is already a users table in the database. If the table does not exist, it will be created.
