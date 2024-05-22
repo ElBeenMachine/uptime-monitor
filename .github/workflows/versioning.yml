@@ -1,9 +1,9 @@
 name: "Bump Version"
 
 on:
-    push:
+    pull_request:
         branches:
-            - "development"
+            - "staging"
 
 jobs:
     bump-version:
@@ -25,6 +25,7 @@ jobs:
               uses: "phips28/gh-action-bump-version@master"
               with:
                   skip-tag: "true"
+                  target-branch: "development"
                   patch-wording: "PATCH, Patch, patch"
                   minor-wording: "MINOR, Minor, minor"
                   major-wording: "MAJOR, Major, major"
