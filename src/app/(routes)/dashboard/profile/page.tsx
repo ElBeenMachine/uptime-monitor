@@ -51,6 +51,7 @@ export default function Profile() {
 
     return notFound();
 
+    /**
     useEffect(() => {
         if (session) {
             // @ts-ignore
@@ -112,5 +113,5 @@ export default function Profile() {
                 </div>
             </div>
         </MasterPage>
-    );
+    ); **/
 }

@@ -4,18 +4,13 @@ import "./auth.css";
 import MasterPage from "../../../_components/Layout/BasicMaster";
 import AuthInput from "../../../_components/Auth/authInput";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import React from "react";
+import LoginError from "./LoginError";
 
 interface LoginPageProps {}
 
 function LoginPage({}: LoginPageProps) {
-    // Get search params
-    const searchParams = useSearchParams();
-
-    // See if there is an error
-    const error = searchParams?.get("error");
-
     // Create refs for the email and password inputs
     const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
     const passwordRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -33,11 +28,7 @@ function LoginPage({}: LoginPageProps) {
     }
 
     function processSignIn() {
-        signIn("credentials", {
-            email: emailRef.current?.value,
-            password: passwordRef.current?.value,
-            callbackUrl: "/",
-        });
+        // TODO: Sign In Logic
     }
 
     return (
@@ -51,11 +42,9 @@ function LoginPage({}: LoginPageProps) {
                             <AuthInput type="email" placeholder="Email" required={true} ref={emailRef} />
                             <AuthInput type="password" placeholder="Password" required={true} ref={passwordRef} />
 
-                            {error && (
-                                <div className="w-full bg-red-100 text-red-700 py-2 px-3 text-sm mb-2 rounded-md border border-red-300">
-                                    {error || "An unexpected error has occurred when trying to log in"}
-                                </div>
-                            )}
+                            <Suspense>
+                                <LoginError />
+                            </Suspense>
 
                             <div className="w-full border-t border-solid border-[rgba(var(--foreground))]/40 my-2"></div>
 
