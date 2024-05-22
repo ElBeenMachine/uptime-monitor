@@ -1,6 +1,7 @@
 import { connectToDb } from "@/global_utils/db";
 import moment from "moment";
 import "moment-timezone";
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
     // Connect to the database
