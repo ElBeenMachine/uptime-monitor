@@ -1,6 +1,6 @@
 {
     "name": "uptime-monitor",
-    "version": "0.1.8",
+    "version": "0.1.0",
     "type": "commonjs",
     "scripts": {
         "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
