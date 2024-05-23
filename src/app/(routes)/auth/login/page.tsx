@@ -9,10 +9,15 @@ import { getUser } from "./GetUser";
 import { comparePassword } from "@/lib/pass";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/auth";
+import getSession from "@/lib/getSession";
 
 interface LoginPageProps {}
 
-function LoginPage({}: LoginPageProps) {
+async function LoginPage({}: LoginPageProps) {
+    // Check if the user is already logged in, if so redirect to the dashboard
+    const { session } = await getSession();
+    if (session) return redirect("/dashboard");
+
     return (
         <MasterPage>
             <div id="auth-container" className="w-full h-[100dvh]">

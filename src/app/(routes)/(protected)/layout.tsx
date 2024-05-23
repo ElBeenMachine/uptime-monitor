@@ -6,9 +6,9 @@ export default async function AuthenticatedLayout({
 }: Readonly<{
     children?: React.ReactNode;
 }>) {
-    const { user } = await getSession();
+    const { session } = await getSession();
 
-    if (!user) {
+    if (!session) {
         redirect("/auth/login");
     }
 

@@ -2,10 +2,10 @@
 
 import { getGravatar } from "@/lib/gravatar";
 import MasterPage from "../DashMaster";
-import { notFound } from "next/navigation";
 import { ReactNode, useRef, Ref, forwardRef, useEffect, useState } from "react";
 import { User } from "lucia";
 import getSession from "@/lib/getSession";
+import { logout } from "./logout";
 
 interface FormContainerProps {
     children?: ReactNode;
@@ -81,7 +81,12 @@ export default function Profile() {
                     </FormContainer>
 
                     <h2 className={"text-2xl font-semibold border-b border-solid border-[var(--background-alt)] mb-2 mt-5 pb-2"}>Sign Out</h2>
-                    <button onClick={() => {}} className={"rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}>
+                    <button
+                        onClick={() => {
+                            logout();
+                        }}
+                        className={"rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}
+                    >
                         Sign Out
                     </button>
                 </div>
