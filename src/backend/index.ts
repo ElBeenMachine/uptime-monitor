@@ -1,10 +1,11 @@
 // Create a database connection
-import { connectToDb } from "@/global_utils/db";
+import { connectToDb } from "@/lib/db";
 import { pingHttp, pingHttps } from "./checks/http(s)";
 import responseInterface from "./checks/responseInterface";
+import { Monitor } from "@/types/Monitor";
 
 // Create an empty monitors array
-let monitors: any[] = [];
+let monitors: Monitor[] = [];
 let activeMonitors: any = {};
 
 /**
@@ -18,7 +19,10 @@ export async function pingMonitor(_id: string) {
 
     // Get the monitor from the database
     const query = `SELECT * FROM monitors WHERE id = "${_id}";`;
-    const monitor = (await connection.execute(query))[0][0];
+    const monitors = (await connection.execute(query))[0] as Monitor[];
+
+    // Get the monitor from the array
+    const monitor = monitors[0];
 
     // If the monitor is not found, return an error
     if (!monitor) {
@@ -66,7 +70,7 @@ export async function updateMonitors() {
 
     // Get all the monitors
     const query = "SELECT * FROM monitors;";
-    const newMonitors = (await connection.execute(query))[0];
+    const newMonitors = (await connection.execute(query))[0] as Monitor[];
 
     // If there are any monitors in the new array that are not in the old one, add them
     for (const monitor of newMonitors) {

@@ -1,19 +1,14 @@
-/**
- * @author - @ElBeenMachine
- */
-
 // Import the required modules
-import { connectToDb } from "@/global_utils/db";
-import { hashPassword } from "@/global_utils/pass";
+import { connectToDb } from "@/lib/db";
+import { hashPassword } from "@/lib/pass";
 
 /**
  * Function to check if there is already a users table in the database. If the table does not exist, it will be created.
  *
  * @param connection The connection to the database.
- * @returns {boolean} Returns true if the table already exists, false otherwise.
  */
-async function checkUserTable(connection: any) {
-    // Check if the 'uptimeUsers' table already exists
+async function checkUsersTable(connection: any) {
+    // Check if the 'users' table already exists
     const [rows] = await connection.execute("SHOW TABLES LIKE 'users'");
     if (rows.length > 0) {
         console.warn("🟠 | Users table already exists.");
@@ -57,8 +52,36 @@ async function checkUserTable(connection: any) {
         console.log("🟢 | Users table successfully created and default user created");
     } catch (error) {
         console.error("🔴| Error creating users table: ", error);
-    } finally {
-        return false;
+    }
+}
+
+/**
+ * Function to check if there is already a sessions table in the database. If the table does not exist, it will be created.
+ *
+ * @param connection The connection to the database.
+ */
+async function checkSessionsTable(connection: any) {
+    // Check if the 'sessions' table already exists
+    const [rows] = await connection.execute("SHOW TABLES LIKE 'sessions'");
+    if (rows.length > 0) {
+        console.warn("🟠 | Sessions table already exists.");
+        return true;
+    }
+
+    // Create user session table
+    const createUserSessionTable = `
+        CREATE TABLE IF NOT EXISTS sessions (
+            id VARCHAR(255) PRIMARY KEY,
+            expires_at DATETIME NOT NULL,
+            user_id CHAR(36) NOT NULL REFERENCES users(id)
+        )`;
+
+    try {
+        // Execute the SQL query to create the 'sessions' table
+        await connection.execute(createUserSessionTable);
+        console.log("🟢 | Sessions table successfully created");
+    } catch (error) {
+        console.error("🔴| Error creating sessions table: ", error);
     }
 }
 
@@ -115,13 +138,13 @@ async function checkMonitorTable(connection: any) {
         console.log("🟢 | Monitors table successfully created and default monitor created");
     } catch (error) {
         console.error("🔴 | Error creating monitors table: ", error);
-    } finally {
-        return false;
     }
 }
 
 /**
  * Function to check if the history table exists in the database. If the table does not exist, it will be created.
+ *
+ * @param connection The connection to the database.
  */
 async function checkHistoryTable(connection: any) {
     // Check if the 'history' table already exists
@@ -148,8 +171,6 @@ async function checkHistoryTable(connection: any) {
         console.log("🟢 | History table successfully created");
     } catch (error) {
         console.error("🔴 | Error creating history table: ", error);
-    } finally {
-        return false;
     }
 }
 
@@ -161,7 +182,10 @@ async function main() {
     const connection = await connectToDb();
 
     // Check if the default user exists
-    await checkUserTable(connection);
+    await checkUsersTable(connection);
+
+    // Check if the sessions table exists
+    await checkSessionsTable(connection);
 
     // Check if the monitors table exists
     await checkMonitorTable(connection);

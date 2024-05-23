@@ -17,7 +17,7 @@ interface optionsInterface {
  * @param {optionsInterface} options The options for the Gravatar
  * @returns {string} The URL of the Gravatar
  */
-function getGravatar(email: string = "admin@example.com", options: optionsInterface = {}) {
+function getGravatar(email: string, options: optionsInterface = {}) {
     const defaultImage = options.defaultImage || "mp";
     const size = options.size || 1024;
 

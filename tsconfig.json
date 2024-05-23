@@ -15,9 +15,7 @@
         "baseUrl": "./src",
         "paths": {
             "@/*": ["./*"],
-            "@/utils/*": ["./app/_utils/*"],
-            "@/components/*": ["./app/_components/*"],
-            "@/global_utils/*": ["./utils/*"]
+            "@/components/*": ["./app/_components/*"]
         },
         "plugins": [
             {
@@ -25,6 +23,6 @@
             }
         ]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/db.ts", ".next/types/**/*.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/lib/db.ts", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }
