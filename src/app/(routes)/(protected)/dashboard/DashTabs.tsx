@@ -1,9 +1,7 @@
-/**
- * @author - @ElBeenMachine
- */
+"use client";
 
 import React from "react";
-import { getGravatar } from "@/utils/gravatar";
+import { getGravatar } from "@/lib/gravatar";
 import { usePathname } from "next/navigation";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
