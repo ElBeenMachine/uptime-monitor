@@ -1,28 +1,36 @@
-/**
- * @author - @ElBeenMachine
- */
+"use client";
 
-import { getGravatar } from "@/utils/gravatar";
+import { getGravatar } from "@/lib/gravatar";
 import { usePathname } from "next/navigation";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import Link from "next/link";
 import React from "react";
+import getSession from "@/lib/getSession";
+import { User } from "lucia";
 
 /**
  * Function to create a user card.
  * @returns {ReactElement} The user card
  */
 function UserCard() {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        getSession().then(({ user }) => {
+            return setUser(user);
+        });
+    }, []);
+
     return (
         <Link
             id={"nav-user-card"}
             className={"rounded-md bg-[var(--background)] hover:bg-[var(--background-hover)] p-3 shadow-md w-full transition-all cursor-pointer flex justify-start items-center"}
             href={"/dashboard/profile"}
         >
-            <img src={getGravatar("", { size: 50 })} alt={""} className={"rounded-full w-6 h-6 mr-4"} />
-            {"No User"}
+            <img src={getGravatar(user?.email ?? "", { size: 50 })} alt={user?.username ?? ""} className={"rounded-full w-6 h-6 mr-4"} />
+            {user?.username}
         </Link>
     );
 }

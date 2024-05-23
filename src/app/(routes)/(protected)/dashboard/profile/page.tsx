@@ -1,9 +1,11 @@
 "use client";
 
+import { getGravatar } from "@/lib/gravatar";
 import MasterPage from "../DashMaster";
-import { getGravatar } from "@/utils/gravatar";
-import { notFound } from "next/navigation";
-import { ReactNode, useEffect, useRef, Ref, forwardRef } from "react";
+import { ReactNode, useRef, Ref, forwardRef, useEffect, useState } from "react";
+import { User } from "lucia";
+import getSession from "@/lib/getSession";
+import { logout } from "./logout";
 
 interface FormContainerProps {
     children?: ReactNode;
@@ -42,28 +44,24 @@ const FormInput = forwardRef((props: { name: string }, ref: Ref<HTMLInputElement
  * @returns {ReactElements} The profile page
  */
 export default function Profile() {
-    // GET THE SESSION
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const fNameRef = useRef<HTMLInputElement>(null);
+    const lNameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
 
-    const fNameRef = useRef(null);
-    const lNameRef = useRef(null);
-    const emailRef = useRef(null);
-    const usernameRef = useRef(null);
+    const [user, setUser] = useState<User | null>(null);
 
-    return notFound();
-
-    /**
     useEffect(() => {
-        if (session) {
-            // @ts-ignore
-            fNameRef.current.value = session.user.firstName;
-            // @ts-ignore
-            lNameRef.current.value = session.user.lastName;
-            // @ts-ignore
-            emailRef.current.value = session.user.email;
-            // @ts-ignore
-            usernameRef.current.value = session.user.username;
-        }
-    }, [session]);
+        getSession().then(({ user }) => {
+            if (fNameRef.current && lNameRef.current && emailRef.current && usernameRef.current) {
+                fNameRef.current.value = user?.firstName ?? "";
+                lNameRef.current.value = user?.lastName ?? "";
+                emailRef.current.value = user?.email ?? "";
+                usernameRef.current.value = user?.username ?? "";
+            }
+            return setUser(user);
+        });
+    }, []);
 
     return (
         <MasterPage>
@@ -83,12 +81,17 @@ export default function Profile() {
                     </FormContainer>
 
                     <h2 className={"text-2xl font-semibold border-b border-solid border-[var(--background-alt)] mb-2 mt-5 pb-2"}>Sign Out</h2>
-                    <button onClick={() => signOut()} className={"rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}>
+                    <button
+                        onClick={() => {
+                            logout();
+                        }}
+                        className={"rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}
+                    >
                         Sign Out
                     </button>
                 </div>
                 <div className={"flex items-center flex-col"}>
-                    <img src={getGravatar(session?.user.email ?? "", { size: 2048 })} alt={session?.user.firstName ?? ""} className={"rounded-full w-52 h-52 "} />
+                    <img src={getGravatar(user?.email ?? "", { size: 2048 })} alt={user?.username ?? ""} className={"rounded-full w-52 h-52 "} />
 
                     <p className={"text-gray-500 my-3 text-center"}>
                         <em>
@@ -113,5 +116,5 @@ export default function Profile() {
                 </div>
             </div>
         </MasterPage>
-    ); **/
+    );
 }
