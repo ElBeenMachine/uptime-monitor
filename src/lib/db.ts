@@ -1,21 +1,16 @@
-/**
- * @author - @ElBeenMachine
- */
-
 // Import the required modules
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
+import { Connection } from "mysql2/promise";
 dotenv.config();
-
-//
 
 /**
  * Function to establish a connection to the MySQL database.
  *
  * @param {number} attempts - Number of connection attempts made so far.
- * @returns {Promise} - A Promise that resolves with the database connection.
+ * @returns {Promise<Connection>} - A Promise that resolves with the database connection.
  */
-const connectToDb = async (attempts = 0): Promise<any> => {
+const connectToDb = async (attempts = 0): Promise<Connection> => {
     // Define connection parameters
     const host = process.env.DB_HOST;
     const user = process.env.DB_USER;

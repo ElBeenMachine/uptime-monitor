@@ -1,4 +1,6 @@
-import { connectToDb } from "@/global_utils/db";
+import { connectToDb } from "@/lib/db";
+import { MonitorHistory } from "@/types/History";
+import { Monitor } from "@/types/Monitor";
 import moment from "moment";
 import "moment-timezone";
 export const dynamic = "force-dynamic";
@@ -23,7 +25,7 @@ export async function GET(req: Request) {
 
     // Get all monitors
     const monitorsQuery = `SELECT * FROM monitors;`;
-    const monitors = (await connection.execute(monitorsQuery))[0];
+    const monitors = (await connection.execute(monitorsQuery))[0] as Monitor[];
 
     // Create an array to store the history
     const history = [];
@@ -52,7 +54,7 @@ export async function GET(req: Request) {
 
             // Get the history for the monitor within the date range
             const historyQuery = `SELECT * FROM history WHERE monitorID = "${monitor.id}" AND timestamp >= "${dateBefore.toISOString()}" AND timestamp <= "${dateAfter.toISOString()}";`;
-            const history = (await connection.execute(historyQuery))[0];
+            const history = (await connection.execute(historyQuery))[0] as MonitorHistory[];
 
             // If there is no history, add a down status
             if (history.length === 0) {

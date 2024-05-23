@@ -1,4 +1,4 @@
-import { connectToDb } from "@/global_utils/db";
+import { connectToDb } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 /**
