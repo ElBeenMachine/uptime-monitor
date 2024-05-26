@@ -7,11 +7,11 @@
             "version": "latest"
         }
     },
-    "forwardPorts": [3000, 4000],
+    "forwardPorts": [3000],
     "postCreateCommand": "sh .devcontainer/post-create.sh",
     "hostRequirements": {
-        "cpus": 4,
-        "memory": "16gb",
-        "storage": "32gb"
+        "cpus": 1,
+        "memory": "4gb",
+        "storage": "16gb"
     }
 }
