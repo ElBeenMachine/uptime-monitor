@@ -1,16 +1,16 @@
 // Import bcrypt
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 /**
  * Function to hash a plaintext password using bcrypt.
  *
- * @param {string} password The plaintet password to be hashed
+ * @param {string} password The plaintext password to be hashed
  * @returns {string} The hashed password
  */
 export async function hashPassword(password: string) {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
 }
 
 /**
@@ -21,5 +21,5 @@ export async function hashPassword(password: string) {
  * @returns {boolean} Whether the password matches the hash
  */
 export async function comparePassword(password: string, hash: string) {
-    return bcrypt.compare(password, hash);
+  return bcrypt.compare(password, hash);
 }

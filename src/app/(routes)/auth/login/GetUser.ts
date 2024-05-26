@@ -1,5 +1,5 @@
+import { getConnection } from "@/lib/db/connection";
 import { User } from "@/types/User";
-import { connectToDb } from "@/lib/db";
 
 /**
  *
@@ -7,10 +7,11 @@ import { connectToDb } from "@/lib/db";
  * @returns {User | null} The user object or null if the user does not exist
  */
 export async function getUser(email: string) {
-    const connection = await connectToDb();
-    const users = (await connection.execute("SELECT * FROM users WHERE email = ? LIMIT 1", [email]))[0] as User[];
+    const db = getConnection();
+    const user = db.prepare(`SELECT * FROM users WHERE email = "${email}" LIMIT 1`).get() as User;
 
-    if (users.length == 0) return null;
+    // Close the connection
+    db.close();
 
-    return users[0];
+    return user;
 }

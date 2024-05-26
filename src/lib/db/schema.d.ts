@@ -6,4 +6,8 @@ export default interface Schema {
     notNull?: boolean;
     unique?: boolean;
     default?: string;
+    references?: {
+        table: string;
+        column: string;
+    }
 }

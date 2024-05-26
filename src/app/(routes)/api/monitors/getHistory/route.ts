@@ -1,4 +1,4 @@
-import { connectToDb } from "@/lib/db";
+import { getConnection } from "@/lib/db/connection";
 import { MonitorHistory } from "@/types/History";
 import { Monitor } from "@/types/Monitor";
 import moment from "moment";
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
     // Connect to the database
-    const connection = await connectToDb();
+    const db = getConnection();
 
     // Create an array of date objects for every 10 minutes in the past 6 hours
     const dates = [];
@@ -24,8 +24,7 @@ export async function GET(req: Request) {
     dates.reverse();
 
     // Get all monitors
-    const monitorsQuery = `SELECT * FROM monitors;`;
-    const monitors = (await connection.execute(monitorsQuery))[0] as Monitor[];
+    const monitors = db.prepare("SELECT * FROM monitors;").all() as Monitor[];
 
     // Create an array to store the history
     const history = [];
@@ -53,8 +52,10 @@ export async function GET(req: Request) {
             dateAfter.setMinutes(dateAfter.getMinutes() + monitor.requestInterval);
 
             // Get the history for the monitor within the date range
-            const historyQuery = `SELECT * FROM history WHERE monitorID = "${monitor.id}" AND timestamp >= "${dateBefore.toISOString()}" AND timestamp <= "${dateAfter.toISOString()}";`;
-            const history = (await connection.execute(historyQuery))[0] as MonitorHistory[];
+            const historyQuery = `SELECT * FROM history WHERE monitorID = "${
+                monitor.id
+            }" AND timestamp >= "${dateBefore.toISOString()}" AND timestamp <= "${dateAfter.toISOString()}";`;
+            const history = db.prepare(historyQuery).all() as MonitorHistory[];
 
             // If there is no history, add a down status
             if (history.length === 0) {
@@ -80,6 +81,9 @@ export async function GET(req: Request) {
             down: downCount,
         });
     }
+
+    // Close the connection
+    db.close();
 
     // Return the results
     return Response.json(history);

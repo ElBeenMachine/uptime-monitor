@@ -1,24 +1,14 @@
 import { Lucia } from "lucia";
-import { Mysql2Adapter } from "@lucia-auth/adapter-mysql";
-import mysql from "mysql2/promise";
+import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
+import sqlite from "better-sqlite3";
 import { User } from "@/types/User";
+import { DB_PATH } from "./db/initialise";
 
-// Define connection parameters
-const host = process.env.DB_HOST;
-const user = process.env.DB_USER;
-const password = process.env.DB_PASS;
-const database = process.env.DB_NAME;
-
-// Create a database connection pool
-const connection = mysql.createPool({
-    host,
-    user,
-    password,
-    database,
-});
+// TODO: Migrate LuciaAuth to use Sqlite3, preferable through a custom adapter
+const db = sqlite(DB_PATH);
 
 // Create a new Mysql2Adapter instance
-const adapter = new Mysql2Adapter(connection, {
+const adapter = new BetterSqlite3Adapter(db, {
     user: "users",
     session: "sessions",
 });
