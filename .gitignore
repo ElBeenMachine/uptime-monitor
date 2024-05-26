@@ -46,4 +46,4 @@ _site/
 vendor/
 
 # Database folder
-db
+/db
