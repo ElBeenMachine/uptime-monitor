@@ -8,7 +8,7 @@ import { User } from "@/types/User";
  */
 export async function getUser(email: string) {
     const db = getConnection();
-    const user = db.prepare(`SELECT * FROM users WHERE email = "${email}" LIMIT 1`).get() as User;
+    const user = db.prepare(`SELECT * FROM users WHERE email='${email}' LIMIT 1`).get() as User;
 
     // Close the connection
     db.close();

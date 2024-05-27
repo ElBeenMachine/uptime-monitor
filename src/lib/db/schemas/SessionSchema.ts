@@ -5,13 +5,12 @@ export const tableName = "sessions";
 export default [
     {
         columnName: "id",
-        dataType: "INTEGER",
+        dataType: "TEXT",
         primaryKey: true,
-        autoIncrement: true,
     },
     {
         columnName: "expires_at",
-        dataType: "TEXT",
+        dataType: "INTEGER",
         notNull: true,
     },
     {
