@@ -35,7 +35,10 @@ async function LoginPage({}: LoginPageProps) {
 
                             <div className="w-full border-t border-solid border-[rgba(var(--foreground))]/40 my-2"></div>
 
-                            <button type="submit" className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md">
+                            <button
+                                type="submit"
+                                className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md"
+                            >
                                 Log In
                             </button>
                         </form>
@@ -69,7 +72,7 @@ async function login(formData: FormData): Promise<void> {
     if (!passwordMatch) return redirect("/auth/login?error=Username or password is incorrect");
 
     // Create a session
-    const session = await lucia.createSession(user.id, {});
+    const session = await lucia.createSession(user.id.toString(), {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
