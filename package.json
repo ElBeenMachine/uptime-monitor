@@ -3,7 +3,7 @@
     "version": "0.1.1",
     "type": "commonjs",
     "scripts": {
-        "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
+        "start": "npx tsx init.ts && concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
         "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
         "build": "next build",
         "lint": "next lint",
