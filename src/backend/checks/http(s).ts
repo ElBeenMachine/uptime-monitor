@@ -3,7 +3,11 @@ import PingResonse from "@/types/PingResponse";
 /**
  * Function to ping a http address
  *
- * @param address The address to ping
+ * @param {string} address The address to ping
+ * @param {number} port The port to ping
+ * @param {number} timeout The timeout for the ping
+ *
+ * @returns {Promise<PingResonse>} The response from the ping
  */
 export async function pingHttp(address: string, port: number, timeout: number = 10) {
     // Get the start time
@@ -40,7 +44,11 @@ export async function pingHttp(address: string, port: number, timeout: number = 
 /**
  * Function to ping a https address
  *
- * @param address The address to ping
+ * @param {string} address The address to ping
+ * @param {number} port The port to ping
+ * @param {number} timeout The timeout for the ping
+ *
+ * @returns {Promise<PingResonse>} The response from the ping
  */
 export async function pingHttps(address: string, port: number, timeout: number = 10) {
     // Get the start time
