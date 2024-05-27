@@ -1,4 +1,5 @@
-import { connectToDb } from "@/lib/db";
+import { getConnection } from "@/lib/db/connection";
+import { Monitor } from "@/types/Monitor";
 export const dynamic = "force-dynamic";
 
 /**
@@ -7,17 +8,14 @@ export const dynamic = "force-dynamic";
  */
 export async function GET(req: Request) {
     // Connect to the database
-    const connection = await connectToDb();
+    const db = getConnection();
 
     // Query to get all monitors
-    const query = `SELECT * FROM monitors;`;
-
-    // Get all monitors from the database
-    const monitors = await connection.execute(query);
+    const monitors = db.prepare(`SELECT * FROM monitors;`).all() as Monitor[];
 
     // Close the connection
-    connection.end();
+    db.close();
 
     // Return the monitors
-    return Response.json({ monitors: monitors[0] });
+    return Response.json({ monitors });
 }

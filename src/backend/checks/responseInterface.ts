@@ -1,3 +1,3 @@
 export default interface responseInterface {
-    status: string;
+    status: "up" | "down" | "pending";
 }
