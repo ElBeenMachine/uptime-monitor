@@ -1,10 +1,10 @@
 export interface Monitor {
-    id: string;
+    id: number;
     name: string;
     address: string;
     port: number;
     protocol: string;
     requestInterval: number;
     timeout: number;
-    status: string;
+    status: "up" | "down" | "pending";
 }

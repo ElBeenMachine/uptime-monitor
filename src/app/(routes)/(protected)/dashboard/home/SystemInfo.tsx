@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import HomeCard from "./HomeCard";
 import formatTime from "@/lib/uptimeFormatter";
-import HomeUptimeGraph from "./UptimeGraph";
 
 export default function SystemInfo() {
     // State to store the monitors
@@ -25,7 +24,7 @@ export default function SystemInfo() {
         // Fetch the monitors every 5 seconds
         const monitorInterval = setInterval(() => {
             fetchMonitors();
-        }, 5000);
+        }, 10000);
 
         // Fetch the uptime
         let uptimeInterval: any;
@@ -84,7 +83,6 @@ export default function SystemInfo() {
                     <span className={"text-5xl"}>{systemUptime == 0 ? "Loading..." : formatTime(systemUptime)}</span>
                 </div>
             </HomeCard>
-            <HomeUptimeGraph />
         </div>
     );
 }

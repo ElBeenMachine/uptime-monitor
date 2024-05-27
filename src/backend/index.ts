@@ -1,5 +1,5 @@
 // Create a database connection
-import { connectToDb } from "@/lib/db";
+import { getConnection } from "@/lib/db/connection";
 import { pingHttp, pingHttps } from "./checks/http(s)";
 import responseInterface from "./checks/responseInterface";
 import { Monitor } from "@/types/Monitor";
@@ -11,26 +11,20 @@ let activeMonitors: any = {};
 /**
  * Ping the monitor and update the history
  *
- * @param _id The ID of the monitor to ping
+ * @param {monitor} _id The ID of the monitor to ping
  */
-export async function pingMonitor(_id: string) {
+export async function pingMonitor(monitor: Monitor) {
     // Create a database connection
-    const connection = await connectToDb();
-
-    // Get the monitor from the database
-    const query = `SELECT * FROM monitors WHERE id = "${_id}";`;
-    const monitors = (await connection.execute(query))[0] as Monitor[];
-
-    // Get the monitor from the array
-    const monitor = monitors[0];
-
-    // If the monitor is not found, return an error
-    if (!monitor) {
-        throw new Error(`🔴 | Monitor ${_id} not found`);
-    }
+    const connection = getConnection();
 
     let oldStatus = monitor.status;
     let response: responseInterface;
+
+    // Get the current time
+    const startTime = new Date().getTime();
+
+    // Log the start of the request
+    console.log(`🟡 | Pinging monitor: ${monitor.name}`);
 
     // Determine the flow based on the protocol
     switch (monitor.protocol) {
@@ -46,19 +40,28 @@ export async function pingMonitor(_id: string) {
             throw new Error(`🔴 | Protocol ${monitor.protocol} not supported`);
     }
 
-    // Update the history and the state of the monitor
-    const historyQuery = `INSERT INTO history (monitorID, status) VALUES ("${_id}", "${response.status}");`;
-    const monitorQuery = `UPDATE monitors SET status = "${response.status}" WHERE id = "${_id}";`;
+    // Get the time after the request
+    const endTime = new Date().getTime();
 
-    await connection.execute(historyQuery);
-    await connection.execute(monitorQuery);
+    // Calculate the response time in ms
+    const responseTime = endTime - startTime;
+
+    // Update the history and the state of the monitor
+    const historyQuery = connection.prepare(`INSERT INTO monitor_results (monitor_id, status, responseTime) VALUES (?, ?, ?);`);
+    historyQuery.run(monitor.id, response.status, responseTime);
 
     // If the status has changed, log it
     if (oldStatus !== response.status) {
-        console.log(`🔵 | Monitor ${_id} status changed to ${response.status}`);
+        console.log(`🔵 | ${monitor.name} status changed to ${response.status}`);
+
+        // Update the monitor status
+        const updateQuery = connection.prepare(`UPDATE monitors SET status = ? WHERE id = ?;`);
+        updateQuery.run(response.status, monitor.id);
+        monitor.status = response.status;
     }
 
-    await connection.end();
+    // Close the connection
+    connection.close();
 }
 
 /**
@@ -66,100 +69,74 @@ export async function pingMonitor(_id: string) {
  */
 export async function updateMonitors() {
     // Create a database connection
-    const connection = await connectToDb();
+    const connection = getConnection();
 
     // Get all the monitors
-    const query = "SELECT * FROM monitors;";
-    const newMonitors = (await connection.execute(query))[0] as Monitor[];
+    const newMonitors = connection.prepare("SELECT * FROM monitors;").all() as Monitor[];
 
     // If there are any monitors in the new array that are not in the old one, add them
     for (const monitor of newMonitors) {
-        if (!monitors.find((m: any) => m.id === monitor.id)) {
+        if (!monitors.find((m: Monitor) => m.id === monitor.id)) {
             // Add the monitor to the array
             monitors.push(monitor);
 
             // Start the monitor
             startMonitor(monitor);
+
+            // Ping the monitor
+            pingMonitor(monitor);
         }
     }
 
     // If there are any monitors in the old array that are not in the new one, remove them and stop the interval with the corresponding ID
     for (const monitor of monitors) {
-        if (!newMonitors.find((m: any) => m.id === monitor.id)) {
+        if (!newMonitors.find((m: Monitor) => m.id === monitor.id)) {
             // Remove the monitor from the array
             monitors = monitors.filter((m) => m.id !== monitor.id);
 
             // Stop the monitor
-            stopMonitor(monitor.id);
+            stopMonitor(monitor);
         }
     }
 
     // Update the monitors array
     monitors = newMonitors;
 
-    await connection.end();
+    // Close the connection
+    connection.close();
 }
 
 /**
  * Stop a monitor
  *
- * @param _id The ID of the monitor to stop
+ * @param {Monitor} monitor The monitor to stop
  */
-export async function stopMonitor(_id: string) {
-    // Log the process
-    console.log(`🟠 | Stopping monitor ${_id}`);
-
+export async function stopMonitor(monitor: Monitor) {
     // Get the interval matching the monitor ID
-    clearInterval(activeMonitors[_id]);
+    clearInterval(activeMonitors[monitor.id]);
 
     // Log the success
-    console.log(`🟢 | Stopped monitor ${_id}`);
+    console.log(`🔴 | Stopped monitor: ${monitor.name}`);
 }
 
 /**
  * Start a monitor
  *
- * @param monitor The monitor to start
+ * @param {Monitor} monitor The monitor to start
  */
-export async function startMonitor(monitor: any) {
-    // Log the process
-    console.log(`🟠 | Starting monitor ${monitor.id}`);
-
-    // Create a database connection
-    const connection = await connectToDb();
-
-    // Update the monitor
-    const query = `UPDATE monitors SET status = "false" WHERE id = "${monitor.id};"`;
-    await connection.execute(query);
-
+export async function startMonitor(monitor: Monitor) {
     activeMonitors[monitor.id] = setInterval(() => {
-        pingMonitor(monitor.id);
+        pingMonitor(monitor);
     }, monitor.requestInterval * 1000);
 
     // Log the success
-    console.log(`🟢 | Started monitor ${monitor.id}`);
-
-    await connection.end();
-}
-
-/**
- * Reset the status of all monitors to down
- */
-export async function resetMonitors() {
-    // Create a database connection
-    const connection = await connectToDb();
-
-    // Update all the monitors
-    const query = `UPDATE monitors SET status = "down";`;
-    await connection.execute(query);
-    await connection.end();
+    console.log(`🟢 | Started monitor: ${monitor.name}`);
 }
 
 /**
  * Main method
  */
 (async () => {
-    await resetMonitors();
     await updateMonitors();
 
     // Set an interval to update the monitors every 1 minute
