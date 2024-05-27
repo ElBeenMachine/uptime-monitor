@@ -30,7 +30,7 @@ const config: Config = {
                     background: {
                         muted: colors.gray[50],
                         subtle: colors.gray[100],
-                        DEFAULT: colors.white,
+                        DEFAULT: "#fafafa",
                         emphasis: colors.gray[700],
                     },
                     border: {
@@ -60,7 +60,7 @@ const config: Config = {
                     background: {
                         muted: "#131A2B",
                         subtle: colors.gray[800],
-                        DEFAULT: colors.gray[900],
+                        DEFAULT: "#323232",
                         emphasis: colors.gray[300],
                     },
                     border: {

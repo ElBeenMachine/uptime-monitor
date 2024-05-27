@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import Link from "next/link";
+import { TbDeviceDesktopCog } from "react-icons/tb";
 
 interface NavLinkInterface {
     href: string;
@@ -25,7 +26,11 @@ function NavLink({ href, children }: NavLinkInterface) {
     const activeClass = pathname === href ? "bg-[var(--background)] shadow-md" : "";
 
     return (
-        <Link id={"nav-user-card"} className={`rounded-md hover:bg-[var(--background-hover)] p-3 w-full transition-all cursor-pointer flex justify-center items-center ${activeClass}`} href={href}>
+        <Link
+            id={"nav-user-card"}
+            className={`rounded-md hover:bg-[var(--background-hover)] p-3 w-full transition-all cursor-pointer flex justify-center items-center ${activeClass}`}
+            href={href}
+        >
             {children}
         </Link>
     );
@@ -52,6 +57,9 @@ export default function DashTabs({}: DashTabsProps) {
                         </NavLink>
                         <NavLink href={"/dashboard/status-pages"}>
                             <CgWebsite size={20} />
+                        </NavLink>
+                        <NavLink href={"/dashboard/monitors"}>
+                            <TbDeviceDesktopCog size={20} />
                         </NavLink>
                         <NavLink href={"/dashboard/profile"}>
                             <img src={getGravatar("", { size: 50 })} alt={""} className={"rounded-full w-7 h-7"} />
