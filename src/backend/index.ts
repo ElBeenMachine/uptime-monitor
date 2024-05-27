@@ -1,8 +1,8 @@
 // Create a database connection
 import { getConnection } from "@/lib/db/connection";
 import { pingHttp, pingHttps } from "./checks/http(s)";
-import responseInterface from "./checks/responseInterface";
 import { Monitor } from "@/types/Monitor";
+import PingResonse from "@/types/PingResponse";
 
 // Create an empty monitors array
 let monitors: Monitor[] = [];
@@ -18,13 +18,7 @@ export async function pingMonitor(monitor: Monitor) {
     const connection = getConnection();
 
     let oldStatus = monitor.status;
-    let response: responseInterface;
-
-    // Get the current time
-    const startTime = new Date().getTime();
-
-    // Log the start of the request
-    console.log(`🟡 | Pinging monitor: ${monitor.name}`);
+    let response: PingResonse;
 
     // Determine the flow based on the protocol
     switch (monitor.protocol) {
@@ -40,15 +34,11 @@ export async function pingMonitor(monitor: Monitor) {
             throw new Error(`🔴 | Protocol ${monitor.protocol} not supported`);
     }
 
-    // Get the time after the request
-    const endTime = new Date().getTime();
-
-    // Calculate the response time in ms
-    const responseTime = endTime - startTime;
-
     // Update the history and the state of the monitor
-    const historyQuery = connection.prepare(`INSERT INTO monitor_results (monitor_id, status, responseTime) VALUES (?, ?, ?);`);
-    historyQuery.run(monitor.id, response.status, responseTime);
+    const historyQuery = connection.prepare(
+        `INSERT INTO monitor_results (monitor_id, status, message, responseTime, responseCode) VALUES (?, ?, ?, ?, ?);`
+    );
+    historyQuery.run(monitor.id, response.status, response.message, response.responseTime, response.responseCode);
 
     // If the status has changed, log it
     if (oldStatus !== response.status) {
@@ -70,6 +60,9 @@ export async function pingMonitor(monitor: Monitor) {
 export async function updateMonitors() {
     // Create a database connection
     const connection = getConnection();
+
+    // Log the update
+    console.log(`🔄 | Updating monitors`);
 
     // Get all the monitors
     const newMonitors = connection.prepare("SELECT * FROM monitors;").all() as Monitor[];
@@ -96,6 +89,27 @@ export async function updateMonitors() {
 
             // Stop the monitor
             stopMonitor(monitor);
+        }
+    }
+
+    // If there are any monitors that are present in the new array, and the old one, but the new one is different, overwrite the entry in the old one
+    for (const monitor of monitors) {
+        const newMonitor = newMonitors.find((m: Monitor) => m.id === monitor.id);
+
+        if (newMonitor) {
+            if (JSON.stringify(monitor) !== JSON.stringify(newMonitor)) {
+                // Stop the monitor
+                stopMonitor(monitor);
+
+                // Start the monitor
+                startMonitor(newMonitor);
+
+                // Ping the monitor
+                pingMonitor(newMonitor);
+
+                // Update the monitor in the array
+                monitors = monitors.map((m) => (m.id === newMonitor.id ? newMonitor : m));
+            }
         }
     }
 
@@ -140,5 +154,5 @@ export async function startMonitor(monitor: Monitor) {
     await updateMonitors();
 
     // Set an interval to update the monitors every 1 minute
-    setInterval(updateMonitors, 1000 * 60 * 1);
+    setInterval(await updateMonitors, 1000 * 30);
 })();
