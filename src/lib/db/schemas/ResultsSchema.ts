@@ -24,7 +24,17 @@ export default [
         notNull: true,
     },
     {
+        columnName: "message",
+        dataType: "TEXT",
+        notNull: true,
+    },
+    {
         columnName: "responseTime",
+        dataType: "INTEGER",
+        notNull: true,
+    },
+    {
+        columnName: "responseCode",
         dataType: "INTEGER",
         notNull: true,
     },

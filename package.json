@@ -1,6 +1,6 @@
 {
     "name": "uptime-monitor",
-    "version": "0.1.1",
+    "version": "0.2.1",
     "type": "commonjs",
     "scripts": {
         "start": "npx tsx init.ts && concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
