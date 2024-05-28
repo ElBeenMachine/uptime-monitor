@@ -61,9 +61,6 @@ export async function updateMonitors() {
     // Create a database connection
     const connection = getConnection();
 
-    // Log the update
-    console.log(`🔄 | Updating monitors`);
-
     // Get all the monitors
     const newMonitors = connection.prepare("SELECT * FROM monitors;").all() as Monitor[];
 
@@ -103,9 +100,6 @@ export async function updateMonitors() {
 
                 // Start the monitor
                 startMonitor(newMonitor);
-
-                // Ping the monitor
-                pingMonitor(newMonitor);
 
                 // Update the monitor in the array
                 monitors = monitors.map((m) => (m.id === newMonitor.id ? newMonitor : m));
@@ -153,6 +147,6 @@ export async function startMonitor(monitor: Monitor) {
 (async () => {
     await updateMonitors();
 
-    // Set an interval to update the monitors every 1 minute
+    // Set an interval to update the monitors every 30 seconds
     setInterval(await updateMonitors, 1000 * 30);
 })();

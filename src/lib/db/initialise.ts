@@ -41,18 +41,6 @@ export default async function initialiseDatabase() {
         }
     }
 
-    // If there are no users, create a default user
-    try {
-        const userCount = db.prepare("SELECT id from users").all().length;
-        if (userCount === 0) {
-            // Create the default user
-            const createUser = db.prepare("INSERT INTO users (firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?)");
-            createUser.run("Default", "User", "DefaultUser", await hashPassword("changeMe"), "admin@example.com");
-        }
-    } catch (error) {
-        console.error("Error creating default user: ", error);
-    }
-
     try {
         // If there are no monitors, create a default monitor
         const monitorCount = db.prepare("SELECT id from monitors").all().length;

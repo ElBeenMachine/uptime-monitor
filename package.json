@@ -7,7 +7,7 @@
         "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
         "build": "next build",
         "lint": "next lint",
-        "backend": "npx tsx src/backend/index.ts",
+        "backend": "npx tsx watch src/backend/index.ts",
         "docs": "cd ./docs && bundle install && bundle exec jekyll serve"
     },
     "dependencies": {

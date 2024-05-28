@@ -54,7 +54,7 @@ export default function Monitors({ monitors }: { monitors: Monitor[] }) {
                     </div>
                 ))}
                 <div className={"flex-grow"}></div>
-                <Link href="/dashboard/monitors" className="mt-3 rounded-md bg-hover hover:opacity-75 w-max transition-all">
+                <Link href="/dashboard/monitors" className="mt-3 px-2 py-1 rounded-md hover:bg-[var(--background-hover)] transition-all">
                     View More...
                 </Link>
             </div>
