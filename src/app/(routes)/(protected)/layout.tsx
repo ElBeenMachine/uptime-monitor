@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import getSession from "@/lib/getSession";
+import { Suspense } from "react";
+import SuspenseLoader from "@/app/_components/Layout/SuspenseLoader";
 
 export default async function AuthenticatedLayout({
     children,
@@ -12,5 +14,5 @@ export default async function AuthenticatedLayout({
         redirect("/auth/login");
     }
 
-    return <>{children}</>;
+    return <Suspense fallback={<SuspenseLoader />}>{children}</Suspense>;
 }

@@ -11,7 +11,7 @@
     --background-alt: #f8f8f8;
 
     --accent-primary: #1679ab;
-    --accent-primary-hover: #0f5f8b;
+    --accent-primary-hover: #0d4c6e;
 }
 
 /* Dark Mode Colours */
@@ -24,7 +24,7 @@
         --background-alt: #1e1e1e;
 
         --accent-primary: #1679ab;
-        --accent-primary-hover: #0f5f8b;
+        --accent-primary-hover: #0d4c6e;
     }
 }
 

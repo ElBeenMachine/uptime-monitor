@@ -6,11 +6,13 @@ import OnboardingData from "./OnboardingData";
 import UsernamePassword from "./UsernamePassword";
 import PersonalInfo from "./PersonalInfo";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function OnboardingForm() {
+    const router = useRouter();
     const [page, setPage] = useState(0);
     const [errors, setErrors] = useState({ firstName: "", lastName: "", email: "", username: "", password: "", confirmPassword: "" });
+    const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState<OnboardingData>({
         firstName: "",
@@ -85,6 +87,8 @@ export default function OnboardingForm() {
 
     // Create the user
     async function createUser() {
+        setLoading(true);
+
         // Ensure there are no errors
         if (Object.values(errors).some((error) => error !== "")) {
             toast.error("You have some errors in your form. Please fix them before continuing.");
@@ -103,7 +107,8 @@ export default function OnboardingForm() {
 
         if (response.ok) {
             console.log(body.message);
-            redirect("/dashboard");
+            toast.success("Onboarding Complete!");
+            router.push("/dashboard");
         } else {
             toast.error(body.messsage);
         }
@@ -145,10 +150,11 @@ export default function OnboardingForm() {
 
                 {page === pages.length - 1 ? (
                     <button
-                        className="px-4 py-2 rounded-md bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] text-white transition-all"
+                        className="px-4 py-2 rounded-md bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] disabled:bg-[var(--accent-primary-hover)] text-white transition-all"
                         onClick={createUser}
+                        disabled={loading}
                     >
-                        Finish
+                        {loading ? "Loading..." : "Finish"}
                     </button>
                 ) : null}
             </div>
