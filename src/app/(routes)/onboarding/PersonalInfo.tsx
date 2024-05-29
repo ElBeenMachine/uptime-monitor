@@ -1,11 +1,13 @@
+import { useState } from "react";
 import OnboardingData from "./OnboardingData";
 
 interface Props {
     data: OnboardingData;
+    errors: { [key: string]: string };
     handleChange: (event: any) => void;
 }
 
-export default function PersonalInfo({ data, handleChange }: Props) {
+export default function PersonalInfo({ data, errors, handleChange }: Props) {
     return (
         <form className="w-full pt-6 px-8">
             <h1 className="text-3xl font-semibold mb-4">Personal Information</h1>
@@ -20,8 +22,10 @@ export default function PersonalInfo({ data, handleChange }: Props) {
                     placeholder="John"
                     value={data.firstName}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
                 />
+                {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
             </div>
             <div className="mb-5">
                 <label className="block text-sm font-medium mb-2" htmlFor="email">
@@ -34,8 +38,10 @@ export default function PersonalInfo({ data, handleChange }: Props) {
                     placeholder="Doe"
                     value={data.lastName}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
                 />
+                {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
             </div>
             <div>
                 <label className="block text-sm font-medium mb-2" htmlFor="email">
@@ -48,8 +54,10 @@ export default function PersonalInfo({ data, handleChange }: Props) {
                     placeholder="admin@example.com"
                     value={data.email}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
                 />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
         </form>
     );

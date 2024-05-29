@@ -1,11 +1,16 @@
+import { useState } from "react";
 import OnboardingData from "./OnboardingData";
 
 interface Props {
     data: OnboardingData;
+    errors: { [key: string]: string };
     handleChange: (event: any) => void;
 }
 
-export default function UsernamePassword({ data, handleChange }: Props) {
+export default function UsernamePassword({ data, errors, handleChange }: Props) {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
         <form className="w-full pt-6 px-8">
             <h1 className="text-3xl font-semibold mb-4">Account Information</h1>
@@ -20,24 +25,30 @@ export default function UsernamePassword({ data, handleChange }: Props) {
                     placeholder="Username"
                     value={data.username}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
-                    minLength={3}
                 />
+                {errors.username && <div className="text-red-500 mt-1">{errors.username}</div>}
             </div>
             <div className="mb-5">
                 <label className="block text-sm font-medium mb-2" htmlFor="name">
-                    Username
+                    Password
                 </label>
                 <input
                     className="appearance-none block w-full bg-gray-200 text-[var(--foreground-alt)] border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={data.password}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
-                    minLength={8}
                 />
+                <div className="flex items-center mt-2">
+                    <input type="checkbox" className="appearance-none mr-2 rounded-full" onChange={() => setShowPassword(!showPassword)} />
+                    <label className="mr-2">Show Password</label>
+                </div>
+                {errors.password && <div className="text-red-500 mt-1">{errors.password}</div>}
             </div>
             <div>
                 <label className="block text-sm font-medium mb-2" htmlFor="name">
@@ -45,14 +56,16 @@ export default function UsernamePassword({ data, handleChange }: Props) {
                 </label>
                 <input
                     className="appearance-none block w-full bg-gray-200 text-[var(--foreground-alt)] border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="password"
+                    name="confirmPassword"
                     type="password"
                     placeholder="Confirm Password"
                     value={data.confirmPassword}
                     onChange={handleChange}
+                    autoComplete="off"
                     required
-                    minLength={8}
                 />
+
+                {errors.confirmPassword && <div className="text-red-500 mt-1">{errors.confirmPassword}</div>}
             </div>
         </form>
     );
