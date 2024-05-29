@@ -5,53 +5,50 @@ interface Props {
     handleChange: (event: any) => void;
 }
 
-export default function UsernamePassword({ data, handleChange }: Props) {
+export default function PersonalInfo({ data, handleChange }: Props) {
     return (
         <form className="w-full pt-6 px-8">
-            <h1 className="text-3xl font-semibold mb-4">Account Information</h1>
+            <h1 className="text-3xl font-semibold mb-4">Personal Information</h1>
             <div className="mb-5">
                 <label className="block text-sm font-medium mb-2" htmlFor="name">
-                    Username
+                    First Name
                 </label>
                 <input
                     className="appearance-none block w-full bg-gray-200 text-[var(--foreground-alt)] border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="username"
+                    name="firstName"
                     type="text"
-                    placeholder="Username"
-                    value={data.username}
+                    placeholder="John"
+                    value={data.firstName}
                     onChange={handleChange}
                     required
-                    minLength={3}
                 />
             </div>
             <div className="mb-5">
-                <label className="block text-sm font-medium mb-2" htmlFor="name">
-                    Username
+                <label className="block text-sm font-medium mb-2" htmlFor="email">
+                    Last Name
                 </label>
                 <input
                     className="appearance-none block w-full bg-gray-200 text-[var(--foreground-alt)] border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    value={data.password}
+                    name="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    value={data.lastName}
                     onChange={handleChange}
                     required
-                    minLength={8}
                 />
             </div>
             <div>
-                <label className="block text-sm font-medium mb-2" htmlFor="name">
-                    Confirm Password
+                <label className="block text-sm font-medium mb-2" htmlFor="email">
+                    Email Address
                 </label>
                 <input
                     className="appearance-none block w-full bg-gray-200 text-[var(--foreground-alt)] border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="password"
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={data.confirmPassword}
+                    name="email"
+                    type="email"
+                    placeholder="admin@example.com"
+                    value={data.email}
                     onChange={handleChange}
                     required
-                    minLength={8}
                 />
             </div>
         </form>
