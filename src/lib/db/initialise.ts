@@ -1,12 +1,16 @@
 import fs from "fs";
 import Database from "better-sqlite3";
 import Schema from "./schema";
-import { hashPassword } from "@/lib/pass";
 import { checkTableExists, createTable } from "./table";
 
 // Ensure database file exists
-if (!fs.existsSync("./db")) fs.mkdirSync("./db");
-const DB_PATH = "./db/uptime.db";
+const DB_PATH = "/data/db/uptime.db";
+const dbFolder = DB_PATH.split("/").slice(0, -1).join("/");
+
+// Create the database folder if it does not exist
+if (!fs.existsSync("/data/db/")) fs.mkdirSync("/data/db/", { recursive: true });
+
+// Create the database file if it does not exist
 const db = new Database(DB_PATH);
 
 // Export the path to be used in other files

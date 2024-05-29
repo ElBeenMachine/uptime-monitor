@@ -9,18 +9,19 @@ import getSession from "@/lib/getSession";
  * @returns {ReactElement} The dashboard home page
  */
 export default async function DashboardHome() {
-    const { user, session } = await getSession();
+    const { user } = await getSession();
 
     function getGreeting() {
+        "use client";
         const today = new Date();
         const curHr = today.getHours();
 
         if (curHr < 12) {
-            return `Good morning, ${user?.firstName}`;
+            return `Good morning, ${user?.firstName}!`;
         } else if (curHr < 18) {
-            return `Good afternoon, ${user?.firstName}`;
+            return `Good afternoon, ${user?.firstName}!`;
         } else {
-            return `Good evening, ${user?.firstName}`;
+            return `Good evening, ${user?.firstName}!`;
         }
     }
 

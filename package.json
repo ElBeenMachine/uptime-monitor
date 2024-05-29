@@ -5,6 +5,7 @@
     "scripts": {
         "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
         "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
+        "docker": "docker-compose up -d --build",
         "build": "tsx init.ts && next build",
         "lint": "next lint",
         "backend": "npx tsx watch src/backend/index.ts",
