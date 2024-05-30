@@ -1,21 +1,20 @@
-# Build stage
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS base
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+# **********
+# deps stage
+# **********
+FROM base AS deps
 
-# Install dependencies
-COPY . .
-RUN npm ci
-RUN npm run build
+# Copy package.json to /app
+COPY package.json ./
 
-# Production stage
-FROM node:18-alpine
-WORKDIR /app
-COPY --from=builder /app ./
+# Copy available lock file (prioritize yarn.lock)
+COPY yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
+# Install dependencies according to yarn.lock (if present)
+RUN yarn install --frozen
 
 # Create volume and set permissions
 RUN mkdir -p /data/db && chown -R node:node /data/db
@@ -24,6 +23,32 @@ VOLUME /data/db
 # Set the user
 USER node
 
+# Disable the telementary
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# ***********
+# inter stage
+# **********
+FROM deps AS inter
+
+# Copy all other files excluding the ones in .dockerignore
+COPY . .
+
+# exposing the port
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# **********
+# prod stage
+# **********
+FROM inter AS prod
+
+RUN yarn build
+
+CMD ["yarn", "start"]
+
+# **********
+# dev stage
+# **********
+FROM inter AS dev
+
+CMD ["yarn", "run", "dev"]

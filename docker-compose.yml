@@ -2,12 +2,17 @@ services:
     uptime-monitor:
         build:
             context: .
-            dockerfile: Dockerfile.dev
+            target: dev
+            dockerfile: Dockerfile
         container_name: Uptime_Monitor_Dev
         restart: always
+        environment:
+            - NODE_ENV=development
+            - CHOKIDAR_USEPOLLING=true
+            - WATCHPACK_POLLING=true
         volumes:
-            - ./:/app
-            - /app/node_module
+            - .:/app
+            - /app/node_modules
             - /app/.next
             - uptime_data:/data
         ports:
