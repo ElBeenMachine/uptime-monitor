@@ -2,13 +2,20 @@ import fs from "fs";
 import Database from "better-sqlite3";
 import Schema from "./schema";
 import { checkTableExists, createTable } from "./table";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Ensure database file exists
-const DB_PATH = "/data/db/uptime.db";
+const DB_PATH = process.env.DEV_DB_PATH || "/data/db/uptime.db";
 const dbFolder = DB_PATH.split("/").slice(0, -1).join("/");
 
-// Create the database folder if it does not exist
-if (!fs.existsSync("/data/db/")) fs.mkdirSync("/data/db/", { recursive: true });
+try {
+    // Create the database folder if it does not exist
+    if (!fs.existsSync(dbFolder)) fs.mkdirSync(dbFolder, { recursive: true });
+} catch (error) {
+    console.error("Error creating database folder: ", error);
+    process.exit(1);
+}
 
 // Create the database file if it does not exist
 const db = new Database(DB_PATH);

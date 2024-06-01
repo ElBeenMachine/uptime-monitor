@@ -4,7 +4,7 @@ import { getGravatar } from "@/lib/gravatar";
 import MasterPage from "../DashMaster";
 import { ReactNode, useRef, Ref, forwardRef, useEffect, useState } from "react";
 import { User } from "lucia";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 import { logout } from "./logout";
 
 interface FormContainerProps {
@@ -33,7 +33,13 @@ const FormInput = forwardRef((props: { name: string }, ref: Ref<HTMLInputElement
             <label htmlFor={props.name} className={"text-sm"}>
                 {props.name}
             </label>
-            <input ref={ref} name={props.name} className={"bg-[var(--background-alt)] px-4 py-2 rounded-md focus:outline-[var(--foreground)] focus:outline-1 focus:outline transition-all"} />
+            <input
+                ref={ref}
+                name={props.name}
+                className={
+                    "bg-[var(--background-alt)] px-4 py-2 rounded-md focus:outline-[var(--foreground)] focus:outline-1 focus:outline transition-all"
+                }
+            />
         </div>
     );
 });
@@ -85,7 +91,9 @@ export default function Profile() {
                         onClick={() => {
                             logout();
                         }}
-                        className={"rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}
+                        className={
+                            "rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"
+                        }
                     >
                         Sign Out
                     </button>
@@ -108,7 +116,9 @@ export default function Profile() {
                     <a
                         href={"https://gravatar.com/profile/avatars"}
                         target={"_blank"}
-                        className={"cursor-pointer block w-max rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"}
+                        className={
+                            "cursor-pointer block w-max rounded-md px-4 py-2 mt-1 bg-[var(--accent-primary)] transition-all text-white hover:bg-[var(--accent-primary-hover)]"
+                        }
                     >
                         Update Profile Picture
                     </a>

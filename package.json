@@ -3,13 +3,13 @@
     "version": "0.2.1",
     "type": "commonjs",
     "scripts": {
-        "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"yarn backend\"",
-        "dev": "npx tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"yarn backend\"",
+        "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
+        "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
         "docker": "docker-compose up -d --build && docker-compose logs -f",
         "build": "tsx init.ts && next build",
         "lint": "next lint",
         "backend": "npx tsx watch src/backend/index.ts",
-        "docs": "cd ./docs && yarn install && yarn jekyll serve"
+        "docs": "cd ./docs && bundle install && bundle exec jekyll serve"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.19",
@@ -26,6 +26,7 @@
         "moment": "^2.30.1",
         "moment-timezone": "^0.5.45",
         "next": "^14.2.3",
+        "next13-progressbar": "^1.2.1",
         "react": "^18",
         "react-dom": "^18",
         "react-icons": "^5.1.0",

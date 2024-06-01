@@ -7,18 +7,23 @@ WORKDIR /app
 # **********
 FROM base AS deps
 
+# Update NPM
+RUN npm install -g npm@latest
+
 # Copy package.json to /app
 COPY package.json ./
 
 # Copy available lock file (prioritize yarn.lock)
-COPY yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package-lock.json* pnpm-lock.yaml* ./
 
 # Install dependencies according to yarn.lock (if present)
-RUN yarn install --frozen
+RUN npm ci
 
 # Create volume and set permissions
 RUN mkdir -p /data/db && chown -R node:node /data/db
 VOLUME /data/db
+
+RUN mkdir /app/.next && chown -R node:node /app/.next
 
 # Set the user
 USER node
@@ -32,7 +37,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 FROM deps AS inter
 
 # Copy all other files excluding the ones in .dockerignore
-COPY . .
+COPY --chown=node:node . .
 
 # exposing the port
 EXPOSE 3000
@@ -44,11 +49,11 @@ FROM inter AS prod
 
 RUN yarn build
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
 
 # **********
 # dev stage
 # **********
 FROM inter AS dev
 
-CMD ["yarn", "run", "dev"]
+CMD ["npm", "run", "dev"]

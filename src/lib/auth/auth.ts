@@ -2,7 +2,7 @@ import { Lucia } from "lucia";
 import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
 import sqlite from "better-sqlite3";
 import { User } from "@/types/User";
-import { DB_PATH } from "./db/initialise";
+import { DB_PATH } from "../db/initialise";
 
 // TODO: Migrate LuciaAuth to use Sqlite3, preferable through a custom adapter
 const db = sqlite(DB_PATH);

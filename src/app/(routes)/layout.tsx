@@ -4,6 +4,7 @@ import "./globals.css";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Providers from "./providers";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <html lang="en-gb">
             <body>
                 <ToastContainer stacked className={"select-none"} />
-                {children}
+                <Providers>{children}</Providers>
             </body>
         </html>
     );

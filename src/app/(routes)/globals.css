@@ -9,6 +9,7 @@
     --background: #ffffff;
     --background-hover: #fafafa;
     --background-alt: #f8f8f8;
+    --background-alt-hover: #e7e6e6;
 
     --accent-primary: #1679ab;
     --accent-primary-hover: #0d4c6e;
@@ -22,6 +23,7 @@
         --background: #2d2d2d;
         --background-hover: #323232;
         --background-alt: #1e1e1e;
+        --background-alt-hover: #0e0e0e;
 
         --accent-primary: #1679ab;
         --accent-primary-hover: #0d4c6e;

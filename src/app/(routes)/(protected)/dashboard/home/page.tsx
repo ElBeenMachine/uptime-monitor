@@ -1,7 +1,7 @@
 import MasterPage from "../DashMaster";
 import React from "react";
 import SystemInfo from "./SystemInfo";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 
 /**
  * Function to create the dashboard home page.

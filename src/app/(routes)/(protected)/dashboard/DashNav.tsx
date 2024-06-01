@@ -8,7 +8,7 @@ import { CgWebsite } from "react-icons/cg";
 import { TbDeviceDesktopCog } from "react-icons/tb";
 import Link from "next/link";
 import React from "react";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 import { User } from "lucia";
 
 /**

@@ -1,6 +1,6 @@
 import MasterPage from "@/app/_components/Layout/BasicMaster";
 import { getConnection } from "@/lib/db/connection";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 import { redirect } from "next/navigation";
 import OnboardingForm from "./OnboardingForm";
 

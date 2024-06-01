@@ -1,7 +1,7 @@
 "use server";
 
-import { lucia } from "@/lib/auth";
-import getSession from "@/lib/getSession";
+import { lucia } from "@/lib/auth/auth";
+import getSession from "@/lib/auth/getSession";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
