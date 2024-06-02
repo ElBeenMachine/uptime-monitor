@@ -108,7 +108,7 @@ export default function OnboardingForm() {
         if (response.ok) {
             console.log(body.message);
             toast.success("Onboarding Complete!");
-            router.push("/dashboard");
+            router.push("/auth/login");
         } else {
             toast.error(body.messsage);
         }
@@ -122,7 +122,7 @@ export default function OnboardingForm() {
         >
             {pages[page]}
             <div className="w-full flex justify-between items-center mt-10 mb-5 px-8 select-none">
-                {page > 0 ? (
+                {page > 0 || loading ? (
                     <button
                         className="px-4 py-2 rounded-md bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] text-white transition-all"
                         onClick={() => {
