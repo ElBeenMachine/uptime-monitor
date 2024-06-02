@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { ReactElement, useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
+import { TbDeviceDesktopCog } from "react-icons/tb";
 import Link from "next/link";
 import React from "react";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 import { User } from "lucia";
 
 /**
@@ -26,7 +27,9 @@ function UserCard() {
     return (
         <Link
             id={"nav-user-card"}
-            className={"rounded-md bg-[var(--background)] hover:bg-[var(--background-hover)] p-3 shadow-md w-full transition-all cursor-pointer flex justify-start items-center"}
+            className={
+                "rounded-md bg-[var(--background)] hover:bg-[var(--background-hover)] p-3 shadow-md w-full transition-all cursor-pointer flex justify-start items-center"
+            }
             href={"/dashboard/profile"}
         >
             <img src={getGravatar(user?.email ?? "", { size: 50 })} alt={user?.username ?? ""} className={"rounded-full w-6 h-6 mr-4"} />
@@ -54,7 +57,11 @@ function NavLink({ href, text, icon }: NavLinkInterface) {
     const activeClass = pathname === href ? "bg-[var(--background)] shadow-md" : "";
 
     return (
-        <Link id={"nav-user-card"} className={`rounded-md hover:bg-[var(--background-hover)] p-3 w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`} href={href}>
+        <Link
+            id={"nav-user-card"}
+            className={`rounded-md hover:bg-[var(--background-hover)] p-3 w-full transition-all cursor-pointer flex justify-start items-center ${activeClass}`}
+            href={href}
+        >
             {icon ? <span className={"mr-4"}>{icon}</span> : null}
             {text}
         </Link>
@@ -79,6 +86,7 @@ function DashNav({}: DashNavProps) {
                 <div className={"flex-grow w-full flex flex-col gap-2"}>
                     <NavLink href={"/dashboard/home"} text={"Home"} icon={<MdOutlineDashboard />} />
                     <NavLink href={"/dashboard/status-pages"} text={"Status Pages"} icon={<CgWebsite />} />
+                    <NavLink href={"/dashboard/monitors"} text={"Monitors"} icon={<TbDeviceDesktopCog />} />
                 </div>
 
                 {/* Navigation User Card */}

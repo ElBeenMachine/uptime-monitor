@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import HomeCard from "./HomeCard";
 import formatTime from "@/lib/uptimeFormatter";
-import HomeUptimeGraph from "./UptimeGraph";
+import Monitors from "./Monitors";
+import { DonutChart, Legend } from "@tremor/react";
 
 export default function SystemInfo() {
     // State to store the monitors
@@ -25,7 +26,7 @@ export default function SystemInfo() {
         // Fetch the monitors every 5 seconds
         const monitorInterval = setInterval(() => {
             fetchMonitors();
-        }, 5000);
+        }, 10000);
 
         // Fetch the uptime
         let uptimeInterval: any;
@@ -44,6 +45,8 @@ export default function SystemInfo() {
             clearInterval(uptimeInterval);
         };
     }, []);
+
+    const valueFormatter = (number: number) => `${number} ${number === 1 ? "Monitor" : "Monitors"}`;
 
     return (
         <div className={"flex flex-wrap gap-4"}>
@@ -84,7 +87,27 @@ export default function SystemInfo() {
                     <span className={"text-5xl"}>{systemUptime == 0 ? "Loading..." : formatTime(systemUptime)}</span>
                 </div>
             </HomeCard>
-            <HomeUptimeGraph />
+            <Monitors monitors={monitors} />
+            <HomeCard title="Status" width={"half"}>
+                <DonutChart
+                    data={[
+                        { name: "Up", value: monitors.filter((x: { status: string }) => x.status == "up").length },
+                        { name: "Down", value: monitors.filter((x: { status: string }) => x.status == "down").length },
+                        { name: "Pending", value: monitors.filter((x: { status: string }) => x.status == "pending").length },
+                    ]}
+                    showAnimation={true}
+                    colors={["green", "red", "orange"]}
+                    valueFormatter={valueFormatter}
+                />
+
+                <div className={"flex-grow"}></div>
+
+                <Legend
+                    categories={["Up", "Down", "Pending"]}
+                    colors={["green", "red", "orange"]}
+                    className="flex gap-3 justify-center w-full mt-5 mb-3"
+                />
+            </HomeCard>
         </div>
     );
 }

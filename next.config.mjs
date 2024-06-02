@@ -10,9 +10,9 @@ const nextConfig = {
                 permanent: true,
             },
             {
-                source: "/",
-                destination: "/dashboard/",
-                permanent: false,
+                source: "/dashboard/monitor",
+                destination: "/dashboard/monitors",
+                permanent: true,
             },
         ];
     },

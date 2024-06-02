@@ -8,12 +8,20 @@ import { redirect } from "next/navigation";
 import { getUser } from "./GetUser";
 import { comparePassword } from "@/lib/pass";
 import { cookies } from "next/headers";
-import { lucia } from "@/lib/auth";
-import getSession from "@/lib/getSession";
+import { lucia } from "@/lib/auth/auth";
+import getSession from "@/lib/auth/getSession";
+import { getConnection } from "@/lib/db/connection";
 
 interface LoginPageProps {}
 
 async function LoginPage({}: LoginPageProps) {
+    // See if there are any users
+    const connection = getConnection();
+    const user = connection.prepare("SELECT * FROM users").get();
+    connection.close();
+
+    if (!user) return redirect("/onboarding");
+
     // Check if the user is already logged in, if so redirect to the dashboard
     const { session } = await getSession();
     if (session) return redirect("/dashboard");
@@ -35,7 +43,10 @@ async function LoginPage({}: LoginPageProps) {
 
                             <div className="w-full border-t border-solid border-[rgba(var(--foreground))]/40 my-2"></div>
 
-                            <button type="submit" className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md">
+                            <button
+                                type="submit"
+                                className="w-full text-center px-4 py-3 my-2 bg-primary hover:bg-primary-hover font-semibold transition-all text-white rounded-md"
+                            >
                                 Log In
                             </button>
                         </form>
@@ -69,7 +80,7 @@ async function login(formData: FormData): Promise<void> {
     if (!passwordMatch) return redirect("/auth/login?error=Username or password is incorrect");
 
     // Create a session
-    const session = await lucia.createSession(user.id, {});
+    const session = await lucia.createSession(user.id.toString(), {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
