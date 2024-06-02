@@ -13,10 +13,10 @@ RUN npm install -g npm@latest
 # Copy package.json to /app
 COPY package.json ./
 
-# Copy available lock file (prioritize yarn.lock)
+# Copy available lock file
 COPY package-lock.json* pnpm-lock.yaml* ./
 
-# Install dependencies according to yarn.lock (if present)
+# Install dependencies
 RUN npm ci
 
 # Create volume and set permissions
@@ -42,6 +42,9 @@ EXPOSE 3000
 # **********
 FROM inter AS prod
 
-RUN yarn build
+# Healthcheck
+HEALTHCHECK CMD curl --silent http://localhost:3000
+
+RUN npm run build
 
 CMD ["npm", "start"]
