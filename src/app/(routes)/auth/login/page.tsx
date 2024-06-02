@@ -10,18 +10,10 @@ import { comparePassword } from "@/lib/pass";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/auth/auth";
 import getSession from "@/lib/auth/getSession";
-import { getConnection } from "@/lib/db/connection";
 
 interface LoginPageProps {}
 
 async function LoginPage({}: LoginPageProps) {
-    // See if there are any users
-    const connection = getConnection();
-    const user = connection.prepare("SELECT * FROM users").get();
-    connection.close();
-
-    if (!user) return redirect("/onboarding");
-
     // Check if the user is already logged in, if so redirect to the dashboard
     const { session } = await getSession();
     if (session) return redirect("/dashboard");
