@@ -38,10 +38,8 @@ COPY . .
 EXPOSE 3000
 
 # **********
-# prod stage
+# dev stage
 # **********
-FROM inter AS prod
+FROM inter AS dev
 
-RUN yarn build
-
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
