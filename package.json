@@ -3,10 +3,10 @@
     "version": "0.3.0",
     "type": "commonjs",
     "scripts": {
-        "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
+        "start": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
         "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
         "docker": "docker-compose up -d --build && docker-compose logs -f",
-        "build": "tsx init.ts && next build",
+        "build": "next build",
         "lint": "next lint",
         "backend": "npx tsx watch src/backend/index.ts",
         "docs": "cd ./docs && bundle install && bundle exec jekyll serve"
