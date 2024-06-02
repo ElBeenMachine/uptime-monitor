@@ -11,12 +11,12 @@ export default async function Onboarding() {
     // If there is a session active, redirect to the dashbaord
     if (session) return redirect("/dashboard");
 
-    // See if there are any registered users, and if there are, redirect to the dashboard
+    // See if there are any registered users, and if there are, redirect to the login page
     const db = getConnection();
     const user = db.prepare("SELECT * FROM users").get();
     db.close();
 
-    if (user) return redirect("/dashboard");
+    if (user) return redirect("/auth/login");
 
     return (
         <MasterPage>
