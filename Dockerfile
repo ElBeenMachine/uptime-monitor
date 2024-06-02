@@ -47,4 +47,7 @@ HEALTHCHECK CMD curl --silent http://localhost:3000
 
 RUN npm run build
 
+# Remove the empty database folder
+RUN rm -rf ./db
+
 CMD ["npm", "start"]
