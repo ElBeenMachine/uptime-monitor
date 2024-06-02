@@ -1,12 +1,23 @@
 import fs from "fs";
 import Database from "better-sqlite3";
 import Schema from "./schema";
-import { hashPassword } from "@/lib/pass";
 import { checkTableExists, createTable } from "./table";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Ensure database file exists
-if (!fs.existsSync("./db")) fs.mkdirSync("./db");
-const DB_PATH = "./db/uptime.db";
+const DB_PATH = process.env.DEV_DB_PATH || "/data/db/uptime.db";
+const dbFolder = DB_PATH.split("/").slice(0, -1).join("/");
+
+try {
+    // Create the database folder if it does not exist
+    if (!fs.existsSync(dbFolder)) fs.mkdirSync(dbFolder, { recursive: true });
+} catch (error) {
+    console.error("Error creating database folder: ", error);
+    process.exit(1);
+}
+
+// Create the database file if it does not exist
 const db = new Database(DB_PATH);
 
 // Export the path to be used in other files
@@ -39,18 +50,6 @@ export default async function initialiseDatabase() {
         } else {
             console.log(`Table "${tableName}" already exists`);
         }
-    }
-
-    // If there are no users, create a default user
-    try {
-        const userCount = db.prepare("SELECT id from users").all().length;
-        if (userCount === 0) {
-            // Create the default user
-            const createUser = db.prepare("INSERT INTO users (firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?)");
-            createUser.run("Default", "User", "DefaultUser", await hashPassword("changeMe"), "admin@example.com");
-        }
-    } catch (error) {
-        console.error("Error creating default user: ", error);
     }
 
     try {

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import getSession from "@/lib/getSession";
+import getSession from "@/lib/auth/getSession";
 
 export default async function AuthenticatedLayout({
     children,

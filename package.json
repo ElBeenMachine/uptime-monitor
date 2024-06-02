@@ -1,13 +1,14 @@
 {
     "name": "uptime-monitor",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "type": "commonjs",
     "scripts": {
-        "start": "npx tsx init.ts && concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
+        "start": "concurrently -n web-client,backend -c green,blue \"next start\" \"npm:backend\"",
         "dev": "tsx init.ts && concurrently -n web-client,backend -c green,blue \"next dev\" \"npm:backend\"",
-        "build": "next build",
+        "docker": "docker-compose up -d --build && docker-compose logs -f",
+        "build": "tsx init.ts && next build",
         "lint": "next lint",
-        "backend": "npx tsx src/backend/index.ts",
+        "backend": "npx tsx watch src/backend/index.ts",
         "docs": "cd ./docs && bundle install && bundle exec jekyll serve"
     },
     "dependencies": {
@@ -25,9 +26,11 @@
         "moment": "^2.30.1",
         "moment-timezone": "^0.5.45",
         "next": "^14.2.3",
+        "next13-progressbar": "^1.2.1",
         "react": "^18",
         "react-dom": "^18",
-        "react-icons": "^5.1.0"
+        "react-icons": "^5.1.0",
+        "react-toastify": "^10.0.5"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.7",
@@ -42,7 +45,7 @@
         "concurrently": "^8.2.2",
         "postcss": "^8",
         "tailwindcss": "^3.3.0",
-        "tsx": "^4.7.2",
+        "tsx": "^4.11.0",
         "typescript": "^5"
     }
 }
