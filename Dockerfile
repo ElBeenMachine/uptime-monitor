@@ -43,7 +43,7 @@ EXPOSE 3000
 FROM inter AS prod
 
 # Healthcheck
-HEALTHCHECK CMD curl --silent http://localhost:3000
+HEALTHCHECK --interval=10s --timeout=5s --retries=5  CMD curl --silent http://0.0.0.0:3000
 
 RUN npm run build
 
