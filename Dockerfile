@@ -20,13 +20,8 @@ COPY package-lock.json* pnpm-lock.yaml* ./
 RUN npm ci
 
 # Create volume and set permissions
-RUN mkdir -p /data/db && chown -R node:node /data/db
+RUN mkdir -p /data/db
 VOLUME /data/db
-
-RUN mkdir /app/.next && chown -R node:node /app/.next
-
-# Set the user
-USER node
 
 # Disable the telementary
 ENV NEXT_TELEMETRY_DISABLED 1
