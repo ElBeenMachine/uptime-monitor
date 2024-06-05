@@ -10,8 +10,8 @@
     "forwardPorts": [3000],
     "postCreateCommand": "sh .devcontainer/post-create.sh",
     "hostRequirements": {
-        "cpus": 1,
-        "memory": "4gb",
-        "storage": "16gb"
+        "cpus": 2,
+        "memory": "1gb",
+        "storage": "4gb"
     }
 }
